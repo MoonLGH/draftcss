@@ -1,0 +1,1332 @@
+[
+  {
+    "name": "Tigreal",
+    "role": "Tank",
+    "damage": "Physical",
+    "symbol": "T",
+    "tone": "#d8a64f",
+    "slug": "tigreal",
+    "portrait": "/assets/mlbb/portraits/tigreal.png",
+    "splashArt": "/assets/mlbb/splashes/tigreal.jpg"
+  },
+  {
+    "name": "Lolita",
+    "role": "Tank",
+    "damage": "Physical",
+    "symbol": "L",
+    "tone": "#67b7c8",
+    "slug": "lolita",
+    "portrait": "/assets/mlbb/portraits/lolita.png",
+    "splashArt": "/assets/mlbb/splashes/lolita.jpg"
+  },
+  {
+    "name": "Khufra",
+    "role": "Tank",
+    "damage": "Physical",
+    "symbol": "K",
+    "tone": "#b17a48",
+    "slug": "khufra",
+    "portrait": "/assets/mlbb/portraits/khufra.png",
+    "splashArt": "/assets/mlbb/splashes/khufra.jpg"
+  },
+  {
+    "name": "Atlas",
+    "role": "Tank",
+    "damage": "Magic",
+    "symbol": "A",
+    "tone": "#62b9a5",
+    "slug": "atlas",
+    "portrait": "/assets/mlbb/portraits/atlas.png",
+    "splashArt": "/assets/mlbb/splashes/atlas.jpg"
+  },
+  {
+    "name": "Minotaur",
+    "role": "Tank",
+    "damage": "Physical",
+    "symbol": "M",
+    "tone": "#c28365",
+    "slug": "minotaur",
+    "portrait": "/assets/mlbb/portraits/minotaur.png",
+    "splashArt": "/assets/mlbb/splashes/minotaur.jpg"
+  },
+  {
+    "name": "Gatotkaca",
+    "role": "Tank",
+    "damage": "Magic",
+    "symbol": "G",
+    "tone": "#b38452",
+    "slug": "gatotkaca",
+    "portrait": "/assets/mlbb/portraits/gatotkaca.png",
+    "splashArt": "/assets/mlbb/splashes/gatotkaca.jpg"
+  },
+  {
+    "name": "Hylos",
+    "role": "Tank",
+    "damage": "Magic",
+    "symbol": "H",
+    "tone": "#71ad7d",
+    "slug": "hylos",
+    "portrait": "/assets/mlbb/portraits/hylos.png",
+    "splashArt": "/assets/mlbb/splashes/hylos.jpg"
+  },
+  {
+    "name": "Edith",
+    "role": "Tank",
+    "damage": "Magic",
+    "symbol": "E",
+    "tone": "#da8993",
+    "slug": "edith",
+    "portrait": "/assets/mlbb/portraits/edith.png",
+    "splashArt": "/assets/mlbb/splashes/edith.jpg"
+  },
+  {
+    "name": "Fredrinn",
+    "role": "Tank",
+    "damage": "Physical",
+    "symbol": "F",
+    "tone": "#7b8fb8",
+    "slug": "fredrinn",
+    "portrait": "/assets/mlbb/portraits/fredrinn.png",
+    "splashArt": "/assets/mlbb/splashes/fredrinn.jpg"
+  },
+  {
+    "name": "Baxia",
+    "role": "Tank",
+    "damage": "Magic",
+    "symbol": "B",
+    "tone": "#78a87c",
+    "slug": "baxia",
+    "portrait": "/assets/mlbb/portraits/baxia.png",
+    "splashArt": "/assets/mlbb/splashes/baxia.jpg"
+  },
+  {
+    "name": "Terizla",
+    "role": "Fighter",
+    "damage": "Physical",
+    "symbol": "T",
+    "tone": "#b06457",
+    "slug": "terizla",
+    "portrait": "/assets/mlbb/portraits/terizla.png",
+    "splashArt": "/assets/mlbb/splashes/terizla.jpg"
+  },
+  {
+    "name": "Yu Zhong",
+    "role": "Fighter",
+    "damage": "Physical",
+    "symbol": "Y",
+    "tone": "#a04e55",
+    "slug": "yu-zhong",
+    "portrait": "/assets/mlbb/portraits/yu-zhong.png",
+    "splashArt": "/assets/mlbb/splashes/yu-zhong.jpg"
+  },
+  {
+    "name": "Paquito",
+    "role": "Fighter",
+    "damage": "Physical",
+    "symbol": "P",
+    "tone": "#c69b5c",
+    "slug": "paquito",
+    "portrait": "/assets/mlbb/portraits/paquito.png",
+    "splashArt": "/assets/mlbb/splashes/paquito.jpg"
+  },
+  {
+    "name": "Arlott",
+    "role": "Fighter",
+    "damage": "Physical",
+    "symbol": "A",
+    "tone": "#8c627e",
+    "slug": "arlott",
+    "portrait": "/assets/mlbb/portraits/arlott.png",
+    "splashArt": "/assets/mlbb/splashes/arlott.jpg"
+  },
+  {
+    "name": "X.Borg",
+    "role": "Fighter",
+    "damage": "True",
+    "symbol": "X",
+    "tone": "#bf664a",
+    "slug": "x-borg",
+    "portrait": "/assets/mlbb/portraits/x-borg.png",
+    "splashArt": "/assets/mlbb/splashes/x-borg.jpg"
+  },
+  {
+    "name": "Dyrroth",
+    "role": "Fighter",
+    "damage": "Physical",
+    "symbol": "D",
+    "tone": "#ad5264",
+    "slug": "dyrroth",
+    "portrait": "/assets/mlbb/portraits/dyrroth.png",
+    "splashArt": "/assets/mlbb/splashes/dyrroth.jpg"
+  },
+  {
+    "name": "Ruby",
+    "role": "Fighter",
+    "damage": "Physical",
+    "symbol": "R",
+    "tone": "#c45a6f",
+    "slug": "ruby",
+    "portrait": "/assets/mlbb/portraits/ruby.png",
+    "splashArt": "/assets/mlbb/splashes/ruby.jpg"
+  },
+  {
+    "name": "Thamuz",
+    "role": "Fighter",
+    "damage": "Physical",
+    "symbol": "T",
+    "tone": "#bd6639",
+    "slug": "thamuz",
+    "portrait": "/assets/mlbb/portraits/thamuz.png",
+    "splashArt": "/assets/mlbb/splashes/thamuz.jpg"
+  },
+  {
+    "name": "Chou",
+    "role": "Fighter",
+    "damage": "Physical",
+    "symbol": "C",
+    "tone": "#b49055",
+    "slug": "chou",
+    "portrait": "/assets/mlbb/portraits/chou.png",
+    "splashArt": "/assets/mlbb/splashes/chou.jpg"
+  },
+  {
+    "name": "Benedetta",
+    "role": "Assassin",
+    "damage": "Physical",
+    "symbol": "B",
+    "tone": "#846dbe",
+    "slug": "benedetta",
+    "portrait": "/assets/mlbb/portraits/benedetta.png",
+    "splashArt": "/assets/mlbb/splashes/benedetta.jpg"
+  },
+  {
+    "name": "Ling",
+    "role": "Assassin",
+    "damage": "Physical",
+    "symbol": "L",
+    "tone": "#6287c1",
+    "slug": "ling",
+    "portrait": "/assets/mlbb/portraits/ling.png",
+    "splashArt": "/assets/mlbb/splashes/ling.jpg"
+  },
+  {
+    "name": "Hayabusa",
+    "role": "Assassin",
+    "damage": "Physical",
+    "symbol": "H",
+    "tone": "#6476a6",
+    "slug": "hayabusa",
+    "portrait": "/assets/mlbb/portraits/hayabusa.png",
+    "splashArt": "/assets/mlbb/splashes/hayabusa.jpg"
+  },
+  {
+    "name": "Fanny",
+    "role": "Assassin",
+    "damage": "Physical",
+    "symbol": "F",
+    "tone": "#6fa8be",
+    "slug": "fanny",
+    "portrait": "/assets/mlbb/portraits/fanny.png",
+    "splashArt": "/assets/mlbb/splashes/fanny.jpg"
+  },
+  {
+    "name": "Lancelot",
+    "role": "Assassin",
+    "damage": "Physical",
+    "symbol": "L",
+    "tone": "#75a1c7",
+    "slug": "lancelot",
+    "portrait": "/assets/mlbb/portraits/lancelot.png",
+    "splashArt": "/assets/mlbb/splashes/lancelot.jpg"
+  },
+  {
+    "name": "Joy",
+    "role": "Assassin",
+    "damage": "Magic",
+    "symbol": "J",
+    "tone": "#bd81c7",
+    "slug": "joy",
+    "portrait": "/assets/mlbb/portraits/joy.png",
+    "splashArt": "/assets/mlbb/splashes/joy.jpg"
+  },
+  {
+    "name": "Nolan",
+    "role": "Assassin",
+    "damage": "Physical",
+    "symbol": "N",
+    "tone": "#6476af",
+    "slug": "nolan",
+    "portrait": "/assets/mlbb/portraits/nolan.png",
+    "splashArt": "/assets/mlbb/splashes/nolan.jpg"
+  },
+  {
+    "name": "Aamon",
+    "role": "Assassin",
+    "damage": "Magic",
+    "symbol": "A",
+    "tone": "#71a7b8",
+    "slug": "aamon",
+    "portrait": "/assets/mlbb/portraits/aamon.png",
+    "splashArt": "/assets/mlbb/splashes/aamon.jpg"
+  },
+  {
+    "name": "Gusion",
+    "role": "Assassin",
+    "damage": "Magic",
+    "symbol": "G",
+    "tone": "#8c76be",
+    "slug": "gusion",
+    "portrait": "/assets/mlbb/portraits/gusion.png",
+    "splashArt": "/assets/mlbb/splashes/gusion.jpg"
+  },
+  {
+    "name": "Lunox",
+    "role": "Mage",
+    "damage": "Magic",
+    "symbol": "L",
+    "tone": "#9680cc",
+    "slug": "lunox",
+    "portrait": "/assets/mlbb/portraits/lunox.png",
+    "splashArt": "/assets/mlbb/splashes/lunox.jpg"
+  },
+  {
+    "name": "Valentina",
+    "role": "Mage",
+    "damage": "Magic",
+    "symbol": "V",
+    "tone": "#9276bb",
+    "slug": "valentina",
+    "portrait": "/assets/mlbb/portraits/valentina.png",
+    "splashArt": "/assets/mlbb/splashes/valentina.jpg"
+  },
+  {
+    "name": "Xavier",
+    "role": "Mage",
+    "damage": "Magic",
+    "symbol": "X",
+    "tone": "#7299c9",
+    "slug": "xavier",
+    "portrait": "/assets/mlbb/portraits/xavier.png",
+    "splashArt": "/assets/mlbb/splashes/xavier.jpg"
+  },
+  {
+    "name": "Novaria",
+    "role": "Mage",
+    "damage": "Magic",
+    "symbol": "N",
+    "tone": "#7b9bd4",
+    "slug": "novaria",
+    "portrait": "/assets/mlbb/portraits/novaria.png",
+    "splashArt": "/assets/mlbb/splashes/novaria.jpg"
+  },
+  {
+    "name": "Pharsa",
+    "role": "Mage",
+    "damage": "Magic",
+    "symbol": "P",
+    "tone": "#9080c9",
+    "slug": "pharsa",
+    "portrait": "/assets/mlbb/portraits/pharsa.png",
+    "splashArt": "/assets/mlbb/splashes/pharsa.jpg"
+  },
+  {
+    "name": "Lylia",
+    "role": "Mage",
+    "damage": "Magic",
+    "symbol": "L",
+    "tone": "#aa78d1",
+    "slug": "lylia",
+    "portrait": "/assets/mlbb/portraits/lylia.png",
+    "splashArt": "/assets/mlbb/splashes/lylia.jpg"
+  },
+  {
+    "name": "Yve",
+    "role": "Mage",
+    "damage": "Magic",
+    "symbol": "Y",
+    "tone": "#657cb8",
+    "slug": "yve",
+    "portrait": "/assets/mlbb/portraits/yve.png",
+    "splashArt": "/assets/mlbb/splashes/yve.jpg"
+  },
+  {
+    "name": "Vexana",
+    "role": "Mage",
+    "damage": "Magic",
+    "symbol": "V",
+    "tone": "#796caa",
+    "slug": "vexana",
+    "portrait": "/assets/mlbb/portraits/vexana.png",
+    "splashArt": "/assets/mlbb/splashes/vexana.jpg"
+  },
+  {
+    "name": "Cecilion",
+    "role": "Mage",
+    "damage": "Magic",
+    "symbol": "C",
+    "tone": "#957bb7",
+    "slug": "cecilion",
+    "portrait": "/assets/mlbb/portraits/cecilion.png",
+    "splashArt": "/assets/mlbb/splashes/cecilion.jpg"
+  },
+  {
+    "name": "Beatrix",
+    "role": "Marksman",
+    "damage": "Physical",
+    "symbol": "B",
+    "tone": "#d18461",
+    "slug": "beatrix",
+    "portrait": "/assets/mlbb/portraits/beatrix.png",
+    "splashArt": "/assets/mlbb/splashes/beatrix.jpg"
+  },
+  {
+    "name": "Brody",
+    "role": "Marksman",
+    "damage": "Physical",
+    "symbol": "B",
+    "tone": "#a96763",
+    "slug": "brody",
+    "portrait": "/assets/mlbb/portraits/brody.png",
+    "splashArt": "/assets/mlbb/splashes/brody.jpg"
+  },
+  {
+    "name": "Claude",
+    "role": "Marksman",
+    "damage": "Physical",
+    "symbol": "C",
+    "tone": "#ca9c63",
+    "slug": "claude",
+    "portrait": "/assets/mlbb/portraits/claude.png",
+    "splashArt": "/assets/mlbb/splashes/claude.jpg"
+  },
+  {
+    "name": "Wanwan",
+    "role": "Marksman",
+    "damage": "Physical",
+    "symbol": "W",
+    "tone": "#d88590",
+    "slug": "wanwan",
+    "portrait": "/assets/mlbb/portraits/wanwan.png",
+    "splashArt": "/assets/mlbb/splashes/wanwan.png"
+  },
+  {
+    "name": "Karrie",
+    "role": "Marksman",
+    "damage": "Physical",
+    "symbol": "K",
+    "tone": "#c6a46a",
+    "slug": "karrie",
+    "portrait": "/assets/mlbb/portraits/karrie.png",
+    "splashArt": "/assets/mlbb/splashes/karrie.jpg"
+  },
+  {
+    "name": "Ixia",
+    "role": "Marksman",
+    "damage": "Physical",
+    "symbol": "I",
+    "tone": "#c17970",
+    "slug": "ixia",
+    "portrait": "/assets/mlbb/portraits/ixia.png",
+    "splashArt": "/assets/mlbb/splashes/ixia.jpg"
+  },
+  {
+    "name": "Melissa",
+    "role": "Marksman",
+    "damage": "Physical",
+    "symbol": "M",
+    "tone": "#c87692",
+    "slug": "melissa",
+    "portrait": "/assets/mlbb/portraits/melissa.png",
+    "splashArt": "/assets/mlbb/splashes/melissa.jpg"
+  },
+  {
+    "name": "Moskov",
+    "role": "Marksman",
+    "damage": "Physical",
+    "symbol": "M",
+    "tone": "#718bb6",
+    "slug": "moskov",
+    "portrait": "/assets/mlbb/portraits/moskov.png",
+    "splashArt": "/assets/mlbb/splashes/moskov.jpg"
+  },
+  {
+    "name": "Angela",
+    "role": "Support",
+    "damage": "Magic",
+    "symbol": "A",
+    "tone": "#d989a2",
+    "slug": "angela",
+    "portrait": "/assets/mlbb/portraits/angela.png",
+    "splashArt": "/assets/mlbb/splashes/angela.jpg"
+  },
+  {
+    "name": "Diggie",
+    "role": "Support",
+    "damage": "Magic",
+    "symbol": "D",
+    "tone": "#d2b369",
+    "slug": "diggie",
+    "portrait": "/assets/mlbb/portraits/diggie.png",
+    "splashArt": "/assets/mlbb/splashes/diggie.jpg"
+  },
+  {
+    "name": "Floryn",
+    "role": "Support",
+    "damage": "Magic",
+    "symbol": "F",
+    "tone": "#7fc496",
+    "slug": "floryn",
+    "portrait": "/assets/mlbb/portraits/floryn.png",
+    "splashArt": "/assets/mlbb/splashes/floryn.jpg"
+  },
+  {
+    "name": "Mathilda",
+    "role": "Support",
+    "damage": "Magic",
+    "symbol": "M",
+    "tone": "#74a993",
+    "slug": "mathilda",
+    "portrait": "/assets/mlbb/portraits/mathilda.png",
+    "splashArt": "/assets/mlbb/splashes/mathilda.jpg"
+  },
+  {
+    "name": "Estes",
+    "role": "Support",
+    "damage": "Magic",
+    "symbol": "E",
+    "tone": "#84b89d",
+    "slug": "estes",
+    "portrait": "/assets/mlbb/portraits/estes.png",
+    "splashArt": "/assets/mlbb/splashes/estes.jpg"
+  },
+  {
+    "name": "Rafaela",
+    "role": "Support",
+    "damage": "Magic",
+    "symbol": "R",
+    "tone": "#87b7d1",
+    "slug": "rafaela",
+    "portrait": "/assets/mlbb/portraits/rafaela.png",
+    "splashArt": "/assets/mlbb/splashes/rafaela.jpg"
+  },
+  {
+    "name": "Akai",
+    "role": "Tank",
+    "damage": "Physical",
+    "symbol": "A",
+    "tone": "#d8a64f",
+    "slug": "akai",
+    "portrait": "/assets/mlbb/portraits/akai.png",
+    "splashArt": "/assets/mlbb/splashes/akai.jpg"
+  },
+  {
+    "name": "Alice",
+    "role": "Tank",
+    "damage": "Magic",
+    "symbol": "A",
+    "tone": "#d8a64f",
+    "slug": "alice",
+    "portrait": "/assets/mlbb/portraits/alice.png",
+    "splashArt": "/assets/mlbb/splashes/alice.jpg"
+  },
+  {
+    "name": "Barats",
+    "role": "Tank",
+    "damage": "Physical",
+    "symbol": "B",
+    "tone": "#d8a64f",
+    "slug": "barats",
+    "portrait": "/assets/mlbb/portraits/barats.png",
+    "splashArt": "/assets/mlbb/splashes/barats.jpg"
+  },
+  {
+    "name": "Belerick",
+    "role": "Tank",
+    "damage": "Physical",
+    "symbol": "B",
+    "tone": "#d8a64f",
+    "slug": "belerick",
+    "portrait": "/assets/mlbb/portraits/belerick.png",
+    "splashArt": "/assets/mlbb/splashes/belerick.jpg"
+  },
+  {
+    "name": "Esmeralda",
+    "role": "Tank",
+    "damage": "Magic",
+    "symbol": "E",
+    "tone": "#d8a64f",
+    "slug": "esmeralda",
+    "portrait": "/assets/mlbb/portraits/esmeralda.png",
+    "splashArt": "/assets/mlbb/splashes/esmeralda.jpg"
+  },
+  {
+    "name": "Franco",
+    "role": "Tank",
+    "damage": "Physical",
+    "symbol": "F",
+    "tone": "#d8a64f",
+    "slug": "franco",
+    "portrait": "/assets/mlbb/portraits/franco.png",
+    "splashArt": "/assets/mlbb/splashes/franco.jpg"
+  },
+  {
+    "name": "Gloo",
+    "role": "Tank",
+    "damage": "Magic",
+    "symbol": "G",
+    "tone": "#d8a64f",
+    "slug": "gloo",
+    "portrait": "/assets/mlbb/portraits/gloo.png",
+    "splashArt": "/assets/mlbb/splashes/gloo.jpg"
+  },
+  {
+    "name": "Grock",
+    "role": "Tank",
+    "damage": "Physical",
+    "symbol": "G",
+    "tone": "#d8a64f",
+    "slug": "grock",
+    "portrait": "/assets/mlbb/portraits/grock.png",
+    "splashArt": "/assets/mlbb/splashes/grock.jpg"
+  },
+  {
+    "name": "Johnson",
+    "role": "Tank",
+    "damage": "Physical",
+    "symbol": "J",
+    "tone": "#d8a64f",
+    "slug": "johnson",
+    "portrait": "/assets/mlbb/portraits/johnson.png",
+    "splashArt": "/assets/mlbb/splashes/johnson.jpg"
+  },
+  {
+    "name": "Uranus",
+    "role": "Tank",
+    "damage": "Magic",
+    "symbol": "U",
+    "tone": "#d8a64f",
+    "slug": "uranus",
+    "portrait": "/assets/mlbb/portraits/uranus.png",
+    "splashArt": "/assets/mlbb/splashes/uranus.jpg"
+  },
+  {
+    "name": "Aldous",
+    "role": "Fighter",
+    "damage": "Physical",
+    "symbol": "A",
+    "tone": "#b06457",
+    "slug": "aldous",
+    "portrait": "/assets/mlbb/portraits/aldous.png",
+    "splashArt": "/assets/mlbb/splashes/aldous.jpg"
+  },
+  {
+    "name": "Alpha",
+    "role": "Fighter",
+    "damage": "Physical",
+    "symbol": "A",
+    "tone": "#b06457",
+    "slug": "alpha",
+    "portrait": "/assets/mlbb/portraits/alpha.png",
+    "splashArt": "/assets/mlbb/splashes/alpha.jpg"
+  },
+  {
+    "name": "Argus",
+    "role": "Fighter",
+    "damage": "Physical",
+    "symbol": "A",
+    "tone": "#b06457",
+    "slug": "argus",
+    "portrait": "/assets/mlbb/portraits/argus.png",
+    "splashArt": "/assets/mlbb/splashes/argus.jpg"
+  },
+  {
+    "name": "Aulus",
+    "role": "Fighter",
+    "damage": "Physical",
+    "symbol": "A",
+    "tone": "#b06457",
+    "slug": "aulus",
+    "portrait": "/assets/mlbb/portraits/aulus.png",
+    "splashArt": "/assets/mlbb/splashes/aulus.jpg"
+  },
+  {
+    "name": "Badang",
+    "role": "Fighter",
+    "damage": "Physical",
+    "symbol": "B",
+    "tone": "#b06457",
+    "slug": "badang",
+    "portrait": "/assets/mlbb/portraits/badang.png",
+    "splashArt": "/assets/mlbb/splashes/badang.jpg"
+  },
+  {
+    "name": "Balmond",
+    "role": "Fighter",
+    "damage": "Physical",
+    "symbol": "B",
+    "tone": "#b06457",
+    "slug": "balmond",
+    "portrait": "/assets/mlbb/portraits/balmond.png",
+    "splashArt": "/assets/mlbb/splashes/balmond.jpg"
+  },
+  {
+    "name": "Bane",
+    "role": "Fighter",
+    "damage": "Magic",
+    "symbol": "B",
+    "tone": "#b06457",
+    "slug": "bane",
+    "portrait": "/assets/mlbb/portraits/bane.png",
+    "splashArt": "/assets/mlbb/splashes/bane.jpg"
+  },
+  {
+    "name": "Cici",
+    "role": "Fighter",
+    "damage": "Physical",
+    "symbol": "C",
+    "tone": "#b06457",
+    "slug": "cici",
+    "portrait": "/assets/mlbb/portraits/cici.png",
+    "splashArt": "/assets/mlbb/splashes/cici.jpg"
+  },
+  {
+    "name": "Freya",
+    "role": "Fighter",
+    "damage": "Physical",
+    "symbol": "F",
+    "tone": "#b06457",
+    "slug": "freya",
+    "portrait": "/assets/mlbb/portraits/freya.png",
+    "splashArt": "/assets/mlbb/splashes/freya.jpg"
+  },
+  {
+    "name": "Guinevere",
+    "role": "Fighter",
+    "damage": "Physical",
+    "symbol": "G",
+    "tone": "#b06457",
+    "slug": "guinevere",
+    "portrait": "/assets/mlbb/portraits/guinevere.png",
+    "splashArt": "/assets/mlbb/splashes/guinevere.jpg"
+  },
+  {
+    "name": "Hilda",
+    "role": "Fighter",
+    "damage": "Physical",
+    "symbol": "H",
+    "tone": "#b06457",
+    "slug": "hilda",
+    "portrait": "/assets/mlbb/portraits/hilda.png",
+    "splashArt": "/assets/mlbb/splashes/hilda.jpg"
+  },
+  {
+    "name": "Jawhead",
+    "role": "Fighter",
+    "damage": "Physical",
+    "symbol": "J",
+    "tone": "#b06457",
+    "slug": "jawhead",
+    "portrait": "/assets/mlbb/portraits/jawhead.png",
+    "splashArt": "/assets/mlbb/splashes/jawhead.jpg"
+  },
+  {
+    "name": "Khaleed",
+    "role": "Fighter",
+    "damage": "Physical",
+    "symbol": "K",
+    "tone": "#b06457",
+    "slug": "khaleed",
+    "portrait": "/assets/mlbb/portraits/khaleed.png",
+    "splashArt": "/assets/mlbb/splashes/khaleed.jpg"
+  },
+  {
+    "name": "Lapu-Lapu",
+    "role": "Fighter",
+    "damage": "Physical",
+    "symbol": "L",
+    "tone": "#b06457",
+    "slug": "lapu-lapu",
+    "portrait": "/assets/mlbb/portraits/lapu-lapu.png",
+    "splashArt": "/assets/mlbb/splashes/lapu-lapu.jpg"
+  },
+  {
+    "name": "Leomord",
+    "role": "Fighter",
+    "damage": "Physical",
+    "symbol": "L",
+    "tone": "#b06457",
+    "slug": "leomord",
+    "portrait": "/assets/mlbb/portraits/leomord.png",
+    "splashArt": "/assets/mlbb/splashes/leomord.jpg"
+  },
+  {
+    "name": "Lukas",
+    "role": "Fighter",
+    "damage": "Physical",
+    "symbol": "L",
+    "tone": "#b06457",
+    "slug": "lukas",
+    "portrait": "/assets/mlbb/portraits/lukas.png",
+    "splashArt": "/assets/mlbb/splashes/lukas.jpg"
+  },
+  {
+    "name": "Martis",
+    "role": "Fighter",
+    "damage": "Physical",
+    "symbol": "M",
+    "tone": "#b06457",
+    "slug": "martis",
+    "portrait": "/assets/mlbb/portraits/martis.png",
+    "splashArt": "/assets/mlbb/splashes/martis.jpg"
+  },
+  {
+    "name": "Masha",
+    "role": "Fighter",
+    "damage": "Physical",
+    "symbol": "M",
+    "tone": "#b06457",
+    "slug": "masha",
+    "portrait": "/assets/mlbb/portraits/masha.png",
+    "splashArt": "/assets/mlbb/splashes/masha.jpg"
+  },
+  {
+    "name": "Minsitthar",
+    "role": "Fighter",
+    "damage": "Physical",
+    "symbol": "M",
+    "tone": "#b06457",
+    "slug": "minsitthar",
+    "portrait": "/assets/mlbb/portraits/minsitthar.png",
+    "splashArt": "/assets/mlbb/splashes/minsitthar.jpg"
+  },
+  {
+    "name": "Phoveus",
+    "role": "Fighter",
+    "damage": "Physical",
+    "symbol": "P",
+    "tone": "#b06457",
+    "slug": "phoveus",
+    "portrait": "/assets/mlbb/portraits/phoveus.png",
+    "splashArt": "/assets/mlbb/splashes/phoveus.jpg"
+  },
+  {
+    "name": "Roger",
+    "role": "Fighter",
+    "damage": "Physical",
+    "symbol": "R",
+    "tone": "#b06457",
+    "slug": "roger",
+    "portrait": "/assets/mlbb/portraits/roger.png",
+    "splashArt": "/assets/mlbb/splashes/roger.jpg"
+  },
+  {
+    "name": "Silvanna",
+    "role": "Fighter",
+    "damage": "Physical",
+    "symbol": "S",
+    "tone": "#b06457",
+    "slug": "silvanna",
+    "portrait": "/assets/mlbb/portraits/silvanna.png",
+    "splashArt": "/assets/mlbb/splashes/silvanna.jpg"
+  },
+  {
+    "name": "Sora",
+    "role": "Fighter",
+    "damage": "Physical",
+    "symbol": "S",
+    "tone": "#b06457",
+    "slug": "sora",
+    "portrait": "/assets/mlbb/portraits/sora.png",
+    "splashArt": "/assets/mlbb/splashes/sora.jpg"
+  },
+  {
+    "name": "Sun",
+    "role": "Fighter",
+    "damage": "Physical",
+    "symbol": "S",
+    "tone": "#b06457",
+    "slug": "sun",
+    "portrait": "/assets/mlbb/portraits/sun.png",
+    "splashArt": "/assets/mlbb/splashes/sun.jpg"
+  },
+  {
+    "name": "Suyou",
+    "role": "Fighter",
+    "damage": "Physical",
+    "symbol": "S",
+    "tone": "#b06457",
+    "slug": "suyou",
+    "portrait": "/assets/mlbb/portraits/suyou.png",
+    "splashArt": "/assets/mlbb/splashes/suyou.jpg"
+  },
+  {
+    "name": "Yin",
+    "role": "Fighter",
+    "damage": "Physical",
+    "symbol": "Y",
+    "tone": "#b06457",
+    "slug": "yin",
+    "portrait": "/assets/mlbb/portraits/yin.png",
+    "splashArt": "/assets/mlbb/splashes/yin.jpg"
+  },
+  {
+    "name": "Zilong",
+    "role": "Fighter",
+    "damage": "Physical",
+    "symbol": "Z",
+    "tone": "#b06457",
+    "slug": "zilong",
+    "portrait": "/assets/mlbb/portraits/zilong.png",
+    "splashArt": "/assets/mlbb/splashes/zilong.jpg"
+  },
+  {
+    "name": "Alucard",
+    "role": "Assassin",
+    "damage": "Physical",
+    "symbol": "A",
+    "tone": "#846dbe",
+    "slug": "alucard",
+    "portrait": "/assets/mlbb/portraits/alucard.png",
+    "splashArt": "/assets/mlbb/splashes/alucard.jpg"
+  },
+  {
+    "name": "Hanzo",
+    "role": "Assassin",
+    "damage": "Physical",
+    "symbol": "H",
+    "tone": "#846dbe",
+    "slug": "hanzo",
+    "portrait": "/assets/mlbb/portraits/hanzo.png",
+    "splashArt": "/assets/mlbb/splashes/hanzo.jpg"
+  },
+  {
+    "name": "Harley",
+    "role": "Assassin",
+    "damage": "Magic",
+    "symbol": "H",
+    "tone": "#846dbe",
+    "slug": "harley",
+    "portrait": "/assets/mlbb/portraits/harley.png",
+    "splashArt": "/assets/mlbb/splashes/harley.jpg"
+  },
+  {
+    "name": "Helcurt",
+    "role": "Assassin",
+    "damage": "Physical",
+    "symbol": "H",
+    "tone": "#846dbe",
+    "slug": "helcurt",
+    "portrait": "/assets/mlbb/portraits/helcurt.png",
+    "splashArt": "/assets/mlbb/splashes/helcurt.jpg"
+  },
+  {
+    "name": "Hirara",
+    "role": "Assassin",
+    "damage": "Physical",
+    "symbol": "H",
+    "tone": "#846dbe",
+    "slug": "hirara",
+    "portrait": "/assets/mlbb/portraits/hirara.png",
+    "splashArt": "/assets/mlbb/splashes/hirara.jpg"
+  },
+  {
+    "name": "Julian",
+    "role": "Assassin",
+    "damage": "Magic",
+    "symbol": "J",
+    "tone": "#846dbe",
+    "slug": "julian",
+    "portrait": "/assets/mlbb/portraits/julian.png",
+    "splashArt": "/assets/mlbb/splashes/julian.jpg"
+  },
+  {
+    "name": "Karina",
+    "role": "Assassin",
+    "damage": "Magic",
+    "symbol": "K",
+    "tone": "#846dbe",
+    "slug": "karina",
+    "portrait": "/assets/mlbb/portraits/karina.png",
+    "splashArt": "/assets/mlbb/splashes/karina.jpg"
+  },
+  {
+    "name": "Natalia",
+    "role": "Assassin",
+    "damage": "Physical",
+    "symbol": "N",
+    "tone": "#846dbe",
+    "slug": "natalia",
+    "portrait": "/assets/mlbb/portraits/natalia.png",
+    "splashArt": "/assets/mlbb/splashes/natalia.jpg"
+  },
+  {
+    "name": "Saber",
+    "role": "Assassin",
+    "damage": "Physical",
+    "symbol": "S",
+    "tone": "#846dbe",
+    "slug": "saber",
+    "portrait": "/assets/mlbb/portraits/saber.png",
+    "splashArt": "/assets/mlbb/splashes/saber.jpg"
+  },
+  {
+    "name": "Selena",
+    "role": "Assassin",
+    "damage": "Magic",
+    "symbol": "S",
+    "tone": "#846dbe",
+    "slug": "selena",
+    "portrait": "/assets/mlbb/portraits/selena.png",
+    "splashArt": "/assets/mlbb/splashes/selena.jpg"
+  },
+  {
+    "name": "Yi Sun-shin",
+    "role": "Assassin",
+    "damage": "Physical",
+    "symbol": "Y",
+    "tone": "#846dbe",
+    "slug": "yi-sun-shin",
+    "portrait": "/assets/mlbb/portraits/yi-sun-shin.png",
+    "splashArt": "/assets/mlbb/splashes/yi-sun-shin.jpg"
+  },
+  {
+    "name": "Aurora",
+    "role": "Mage",
+    "damage": "Magic",
+    "symbol": "A",
+    "tone": "#9680cc",
+    "slug": "aurora",
+    "portrait": "/assets/mlbb/portraits/aurora.png",
+    "splashArt": "/assets/mlbb/splashes/aurora.jpg"
+  },
+  {
+    "name": "Chang'e",
+    "role": "Mage",
+    "damage": "Magic",
+    "symbol": "C",
+    "tone": "#9680cc",
+    "slug": "change",
+    "portrait": "/assets/mlbb/portraits/change.png",
+    "splashArt": "/assets/mlbb/splashes/change.jpg"
+  },
+  {
+    "name": "Cyclops",
+    "role": "Mage",
+    "damage": "Magic",
+    "symbol": "C",
+    "tone": "#9680cc",
+    "slug": "cyclops",
+    "portrait": "/assets/mlbb/portraits/cyclops.png",
+    "splashArt": "/assets/mlbb/splashes/cyclops.jpg"
+  },
+  {
+    "name": "Eudora",
+    "role": "Mage",
+    "damage": "Magic",
+    "symbol": "E",
+    "tone": "#9680cc",
+    "slug": "eudora",
+    "portrait": "/assets/mlbb/portraits/eudora.png",
+    "splashArt": "/assets/mlbb/splashes/eudora.jpg"
+  },
+  {
+    "name": "Gord",
+    "role": "Mage",
+    "damage": "Magic",
+    "symbol": "G",
+    "tone": "#9680cc",
+    "slug": "gord",
+    "portrait": "/assets/mlbb/portraits/gord.png",
+    "splashArt": "/assets/mlbb/splashes/gord.jpg"
+  },
+  {
+    "name": "Harith",
+    "role": "Mage",
+    "damage": "Magic",
+    "symbol": "H",
+    "tone": "#9680cc",
+    "slug": "harith",
+    "portrait": "/assets/mlbb/portraits/harith.png",
+    "splashArt": "/assets/mlbb/splashes/harith.jpg"
+  },
+  {
+    "name": "Kadita",
+    "role": "Mage",
+    "damage": "Magic",
+    "symbol": "K",
+    "tone": "#9680cc",
+    "slug": "kadita",
+    "portrait": "/assets/mlbb/portraits/kadita.png",
+    "splashArt": "/assets/mlbb/splashes/kadita.jpg"
+  },
+  {
+    "name": "Kagura",
+    "role": "Mage",
+    "damage": "Magic",
+    "symbol": "K",
+    "tone": "#9680cc",
+    "slug": "kagura",
+    "portrait": "/assets/mlbb/portraits/kagura.png",
+    "splashArt": "/assets/mlbb/splashes/kagura.jpg"
+  },
+  {
+    "name": "Luo Yi",
+    "role": "Mage",
+    "damage": "Magic",
+    "symbol": "L",
+    "tone": "#9680cc",
+    "slug": "luo-yi",
+    "portrait": "/assets/mlbb/portraits/luo-yi.png",
+    "splashArt": "/assets/mlbb/splashes/luo-yi.jpg"
+  },
+  {
+    "name": "Nana",
+    "role": "Mage",
+    "damage": "Magic",
+    "symbol": "N",
+    "tone": "#9680cc",
+    "slug": "nana",
+    "portrait": "/assets/mlbb/portraits/nana.png",
+    "splashArt": "/assets/mlbb/splashes/nana.jpg"
+  },
+  {
+    "name": "Odette",
+    "role": "Mage",
+    "damage": "Magic",
+    "symbol": "O",
+    "tone": "#9680cc",
+    "slug": "odette",
+    "portrait": "/assets/mlbb/portraits/odette.png",
+    "splashArt": "/assets/mlbb/splashes/odette.jpg"
+  },
+  {
+    "name": "Vale",
+    "role": "Mage",
+    "damage": "Magic",
+    "symbol": "V",
+    "tone": "#9680cc",
+    "slug": "vale",
+    "portrait": "/assets/mlbb/portraits/vale.png",
+    "splashArt": "/assets/mlbb/splashes/vale.jpg"
+  },
+  {
+    "name": "Valir",
+    "role": "Mage",
+    "damage": "Magic",
+    "symbol": "V",
+    "tone": "#9680cc",
+    "slug": "valir",
+    "portrait": "/assets/mlbb/portraits/valir.png",
+    "splashArt": "/assets/mlbb/splashes/valir.jpg"
+  },
+  {
+    "name": "Zetian",
+    "role": "Mage",
+    "damage": "Magic",
+    "symbol": "Z",
+    "tone": "#9680cc",
+    "slug": "zetian",
+    "portrait": "/assets/mlbb/portraits/zetian.png",
+    "splashArt": "/assets/mlbb/splashes/zetian.jpg"
+  },
+  {
+    "name": "Zhask",
+    "role": "Mage",
+    "damage": "Magic",
+    "symbol": "Z",
+    "tone": "#9680cc",
+    "slug": "zhask",
+    "portrait": "/assets/mlbb/portraits/zhask.png",
+    "splashArt": "/assets/mlbb/splashes/zhask.jpg"
+  },
+  {
+    "name": "Zhuxin",
+    "role": "Mage",
+    "damage": "Magic",
+    "symbol": "Z",
+    "tone": "#9680cc",
+    "slug": "zhuxin",
+    "portrait": "/assets/mlbb/portraits/zhuxin.png",
+    "splashArt": "/assets/mlbb/splashes/zhuxin.jpg"
+  },
+  {
+    "name": "Bruno",
+    "role": "Marksman",
+    "damage": "Physical",
+    "symbol": "B",
+    "tone": "#d18461",
+    "slug": "bruno",
+    "portrait": "/assets/mlbb/portraits/bruno.png",
+    "splashArt": "/assets/mlbb/splashes/bruno.jpg"
+  },
+  {
+    "name": "Clint",
+    "role": "Marksman",
+    "damage": "Physical",
+    "symbol": "C",
+    "tone": "#d18461",
+    "slug": "clint",
+    "portrait": "/assets/mlbb/portraits/clint.png",
+    "splashArt": "/assets/mlbb/splashes/clint.jpg"
+  },
+  {
+    "name": "Granger",
+    "role": "Marksman",
+    "damage": "Physical",
+    "symbol": "G",
+    "tone": "#d18461",
+    "slug": "granger",
+    "portrait": "/assets/mlbb/portraits/granger.png",
+    "splashArt": "/assets/mlbb/splashes/granger.jpg"
+  },
+  {
+    "name": "Hanabi",
+    "role": "Marksman",
+    "damage": "Physical",
+    "symbol": "H",
+    "tone": "#d18461",
+    "slug": "hanabi",
+    "portrait": "/assets/mlbb/portraits/hanabi.png",
+    "splashArt": "/assets/mlbb/splashes/hanabi.jpg"
+  },
+  {
+    "name": "Irithel",
+    "role": "Marksman",
+    "damage": "Physical",
+    "symbol": "I",
+    "tone": "#d18461",
+    "slug": "irithel",
+    "portrait": "/assets/mlbb/portraits/irithel.png",
+    "splashArt": "/assets/mlbb/splashes/irithel.jpg"
+  },
+  {
+    "name": "Kimmy",
+    "role": "Marksman",
+    "damage": "Magic",
+    "symbol": "K",
+    "tone": "#d18461",
+    "slug": "kimmy",
+    "portrait": "/assets/mlbb/portraits/kimmy.png",
+    "splashArt": "/assets/mlbb/splashes/kimmy.jpg"
+  },
+  {
+    "name": "Layla",
+    "role": "Marksman",
+    "damage": "Physical",
+    "symbol": "L",
+    "tone": "#d18461",
+    "slug": "layla",
+    "portrait": "/assets/mlbb/portraits/layla.png",
+    "splashArt": "/assets/mlbb/splashes/layla.jpg"
+  },
+  {
+    "name": "Lesley",
+    "role": "Marksman",
+    "damage": "Physical",
+    "symbol": "L",
+    "tone": "#d18461",
+    "slug": "lesley",
+    "portrait": "/assets/mlbb/portraits/lesley.png",
+    "splashArt": "/assets/mlbb/splashes/lesley.jpg"
+  },
+  {
+    "name": "Miya",
+    "role": "Marksman",
+    "damage": "Physical",
+    "symbol": "M",
+    "tone": "#d18461",
+    "slug": "miya",
+    "portrait": "/assets/mlbb/portraits/miya.png",
+    "splashArt": "/assets/mlbb/splashes/miya.jpg"
+  },
+  {
+    "name": "Natan",
+    "role": "Marksman",
+    "damage": "Physical",
+    "symbol": "N",
+    "tone": "#d18461",
+    "slug": "natan",
+    "portrait": "/assets/mlbb/portraits/natan.png",
+    "splashArt": "/assets/mlbb/splashes/natan.jpg"
+  },
+  {
+    "name": "Obsidia",
+    "role": "Marksman",
+    "damage": "Physical",
+    "symbol": "O",
+    "tone": "#d18461",
+    "slug": "obsidia",
+    "portrait": "/assets/mlbb/portraits/obsidia.png",
+    "splashArt": "/assets/mlbb/splashes/obsidia.jpg"
+  },
+  {
+    "name": "Popol and Kupa",
+    "role": "Marksman",
+    "damage": "Physical",
+    "symbol": "P",
+    "tone": "#d18461",
+    "slug": "popol-and-kupa",
+    "portrait": "/assets/mlbb/portraits/popol-and-kupa.png",
+    "splashArt": "/assets/mlbb/splashes/popol-and-kupa.jpg"
+  },
+  {
+    "name": "Carmilla",
+    "role": "Support",
+    "damage": "Magic",
+    "symbol": "C",
+    "tone": "#74a993",
+    "slug": "carmilla",
+    "portrait": "/assets/mlbb/portraits/carmilla.png",
+    "splashArt": "/assets/mlbb/splashes/carmilla.jpg"
+  },
+  {
+    "name": "Chip",
+    "role": "Support",
+    "damage": "Physical",
+    "symbol": "C",
+    "tone": "#74a993",
+    "slug": "chip",
+    "portrait": "/assets/mlbb/portraits/chip.png",
+    "splashArt": "/assets/mlbb/splashes/chip.jpg"
+  },
+  {
+    "name": "Faramis",
+    "role": "Support",
+    "damage": "Magic",
+    "symbol": "F",
+    "tone": "#74a993",
+    "slug": "faramis",
+    "portrait": "/assets/mlbb/portraits/faramis.png",
+    "splashArt": "/assets/mlbb/splashes/faramis.jpg"
+  },
+  {
+    "name": "Kaja",
+    "role": "Support",
+    "damage": "Magic",
+    "symbol": "K",
+    "tone": "#74a993",
+    "slug": "kaja",
+    "portrait": "/assets/mlbb/portraits/kaja.png",
+    "splashArt": "/assets/mlbb/splashes/kaja.jpg"
+  },
+  {
+    "name": "Kalea",
+    "role": "Support",
+    "damage": "Magic",
+    "symbol": "K",
+    "tone": "#74a993",
+    "slug": "kalea",
+    "portrait": "/assets/mlbb/portraits/kalea.png",
+    "splashArt": "/assets/mlbb/splashes/kalea.jpg"
+  },
+  {
+    "name": "Marcel",
+    "role": "Support",
+    "damage": "Magic",
+    "symbol": "M",
+    "tone": "#74a993",
+    "slug": "marcel",
+    "portrait": "/assets/mlbb/portraits/marcel.png",
+    "splashArt": "/assets/mlbb/splashes/marcel.jpg"
+  }
+]

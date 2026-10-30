@@ -1,0 +1,21 @@
+{
+  "name": "css-ilkom-unnes-draft-lab",
+  "private": true,
+  "version": "1.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "concurrently -k \"node server/index.cjs\" \"vite --host 0.0.0.0\"",
+    "build": "vite build",
+    "start": "node server/index.cjs",
+    "assets:sync": "node scripts/sync-mlbb-assets.mjs"
+  },
+  "dependencies": {
+    "express": "^5.3.0",
+    "react": "^19.3.0",
+    "react-dom": "^19.3.0"
+  },
+  "devDependencies": {
+    "concurrently": "^9.2.1",
+    "vite": "^8.3.5"
+  }
+}

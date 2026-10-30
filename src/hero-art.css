@@ -1,0 +1,124 @@
+.hero-card-art::before {
+  content: "";
+  position: absolute;
+  z-index: 0;
+  bottom: -9px;
+  width: 39px;
+  height: 43px;
+  border-radius: 45% 45% 15% 15%;
+  background: linear-gradient(145deg, rgba(241, 244, 252, .56), rgba(68, 81, 105, .15));
+  clip-path: polygon(28% 0, 72% 0, 86% 19%, 100% 100%, 0 100%, 14% 19%);
+  opacity: .42;
+}
+
+.hero-card-art::after {
+  content: "";
+  position: absolute;
+  z-index: 0;
+  top: 13px;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: linear-gradient(145deg, rgba(245, 247, 255, .75), color-mix(in srgb, var(--hero-tone), #c6d0e0 45%));
+  box-shadow: 0 0 16px color-mix(in srgb, var(--hero-tone), transparent 42%);
+  opacity: .62;
+}
+
+.hero-card-art.has-portrait::before,
+.hero-card-art.has-portrait::after {
+  display: none;
+}
+
+.hero-card-art.has-portrait > img {
+  position: absolute;
+  z-index: 1;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center 18%;
+}
+
+.hero-card-art.has-portrait > b {
+  display: none;
+}
+
+.hero-card-art.has-portrait .hero-art-grid,
+.hero-card-art.has-portrait > i,
+.hero-card-art.has-portrait .hero-role-mark {
+  z-index: 2;
+}
+
+.hero-card-art.has-portrait .hero-art-grid {
+  background: linear-gradient(0deg, rgba(5, 10, 18, .3), transparent 38%), linear-gradient(35deg, transparent 25%, rgba(255, 255, 255, .04) 25.5%, transparent 26%);
+}
+
+.slot-splash,
+.slot-ban-portrait {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.slot-splash {
+  object-position: center 18%;
+  opacity: .94;
+}
+
+.slot-ban-portrait {
+  filter: grayscale(1) brightness(.62);
+}
+
+.player-name-grid {
+  margin-top: 6px;
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: 7px;
+}
+
+.player-name-field {
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+
+.player-name-field > span {
+  overflow: hidden;
+  color: #718199;
+  font: 6px var(--mono);
+  letter-spacing: .06em;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.player-name-field input {
+  width: 100%;
+  min-width: 0;
+  height: 23px;
+  padding: 2px 4px;
+  border: 1px solid rgba(150, 171, 200, .18);
+  border-radius: 4px;
+  outline: 0;
+  background: rgba(7, 13, 22, .72);
+  color: #eaf0f8;
+  text-align: center;
+  font: 7px var(--mono);
+}
+
+.player-name-field input:focus {
+  border-color: rgba(229, 174, 88, .65);
+}
+
+.red .player-name-field input:focus {
+  border-color: rgba(241, 117, 110, .65);
+}
+
+@media (max-width: 800px) {
+  .player-name-grid { gap: 4px; }
+  .player-name-field > span { font-size: 5px; }
+  .player-name-field input { height: 19px; padding: 2px; font-size: 6px; }
+}
