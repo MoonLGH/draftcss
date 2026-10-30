@@ -1,7 +1,9 @@
 import React, { useEffect, useMemo, useRef, useState } from "react";
 import heroesFallback from "../shared/heroes.json";
-import { applyHero, createQueue, finishSwap, newDraft, swapHeroes, undoDraft } from "./engine/draft.js";
+import { applyHero, createQueue, finishSwap, newDraft, setCurrentPickPlayer, swapHeroes, undoDraft } from "./engine/draft.js";
 import ObsOverlay from "./ObsOverlay.jsx";
+import SplashFocusGallery from "./SplashFocusGallery.jsx";
+import { DEFAULT_SPLASH_FOCAL_POINTS, USER_SET_SPLASH_FOCAL_KEYS } from "./splashFocus.js";
 
 const ROLE_FILTERS = ["Semua", "Tank", "Fighter", "Assassin", "Mage", "Marksman", "Support"];
 const ROLE_MARK = { Tank: "T", Fighter: "F", Assassin: "A", Mage: "M", Marksman: "MM", Support: "S" };
@@ -13,6 +15,9 @@ const MODE_COPY = {
 };
 const ICONS = { search: "⌕", back: "↶", restart: "⟳", share: "↗", down: "⌄", close: "×" };
 const STORAGE_KEY = "css-draft-lab-v1";
+const SPLASH_FOCUS_STORAGE_KEY = "css-draft-lab-splash-focus-v1";
+const SPLASH_FOCUS_REVISION_KEY = "css-draft-lab-splash-focus-revision";
+const SPLASH_FOCUS_REVISION = "user-provided-points-v1";
 const DEFAULT_PLAYER_NAMES = Array.from({ length: 5 }, () => "");
 const DEFAULT_TEAM_META = {
   blue: { name: "BLUE TEAM", logo: "", players: DEFAULT_PLAYER_NAMES },
@@ -34,6 +39,19 @@ function normalizeTeamMeta(saved = {}) {
 function readSavedAppState() {
   try { return JSON.parse(localStorage.getItem(STORAGE_KEY) || "{}"); }
   catch { return {}; }
+}
+
+function readSavedSplashFocusPoints() {
+  try {
+    const parsed = JSON.parse(localStorage.getItem(SPLASH_FOCUS_STORAGE_KEY) || "{}");
+    const saved = parsed && typeof parsed === "object" && !Array.isArray(parsed) ? parsed : {};
+    if (localStorage.getItem(SPLASH_FOCUS_REVISION_KEY) !== SPLASH_FOCUS_REVISION) {
+      for (const key of USER_SET_SPLASH_FOCAL_KEYS) delete saved[key];
+    }
+    return { ...DEFAULT_SPLASH_FOCAL_POINTS, ...saved };
+  } catch {
+    return DEFAULT_SPLASH_FOCAL_POINTS;
+  }
 }
 
 function restoreDraft() {
@@ -105,9 +123,12 @@ function RoleBars({ heroes }) {
   );
 }
 
-function TeamPanel({ side, team, meta, editable, active, currentAction, freeMode, freeSide, freeSlot, swapMode, selectedSwapSlots, onNameChange, onLogoChange, onPlayerNameChange, onSelectSlot, onRemove, onSetFreeSide, onSwapSelect }) {
+function TeamPanel({ side, team, meta, editable, active, currentAction, freeMode, freeSide, freeSlot, swapMode, selectedSwapSlots, onNameChange, onLogoChange, onPlayerNameChange, onSelectSlot, onRemove, onSetFreeSide, onSwapSelect, onPickPlayerChange }) {
   const sideName = side === "blue" ? "BLUE SIDE" : "RED SIDE";
   const isBlue = side === "blue";
+  const pickOrder = team.pickOrder?.length === 5 ? team.pickOrder : [0, 1, 2, 3, 4];
+  const currentPickIndex = team.picks.filter(Boolean).length;
+  const availablePlayers = pickOrder.slice(currentPickIndex);
   const pickedHeroes = team.picks.filter(Boolean);
   const damageCounts = pickedHeroes.reduce((acc, hero) => {
     acc[hero.damage] = (acc[hero.damage] || 0) + 1;
@@ -129,6 +150,7 @@ function TeamPanel({ side, team, meta, editable, active, currentAction, freeMode
         {active && <span className="turn-label">{currentAction === "ban" ? "BAN TURN" : "PICK TURN"}<i /></span>}
         {freeMode && side === "blue" && <select aria-label="Side for free draft" value={freeSide} onChange={(event) => onSetFreeSide(event.target.value)}><option value="blue">Blue</option><option value="red">Red</option></select>}
       </div>
+      {active && currentAction === "pick" && !freeMode && <label className="pick-owner-select"><span>PICK UNTUK</span><select aria-label={`Pemain untuk pick ${sideName}`} value={pickOrder[currentPickIndex] ?? currentPickIndex} onChange={(event) => onPickPlayerChange?.(side, Number(event.target.value))}>{availablePlayers.map((playerIndex) => <option value={playerIndex} key={playerIndex}>{String(meta.players?.[playerIndex] || `PLAYER 0${playerIndex + 1}`).trim()}</option>)}</select></label>}
       <div className="pick-grid">
         {Array.from({ length: 5 }, (_, index) => (
           <TeamSlot
@@ -145,10 +167,15 @@ function TeamPanel({ side, team, meta, editable, active, currentAction, freeMode
         ))}
       </div>
       {editable && <div className="player-name-grid" aria-label={`Username pemain ${sideName}`}>
-        {DEFAULT_PLAYER_NAMES.map((fallback, index) => <label className="player-name-field" key={index}>
-          <span>{`PLAYER 0${index + 1}`}</span>
-          <input value={meta.players?.[index] ?? fallback} placeholder="Username" aria-label={`Username ${sideName} player ${index + 1}`} onChange={(event) => onPlayerNameChange?.(side, index, event.target.value)} />
-        </label>)}
+        {DEFAULT_PLAYER_NAMES.map((fallback, index) => {
+          const playerIndex = pickOrder[index] ?? index;
+          return (
+            <label className="player-name-field" key={playerIndex}>
+              <span>{`PLAYER 0${playerIndex + 1}`}</span>
+              <input value={meta.players?.[playerIndex] ?? fallback} placeholder="Username" aria-label={`Username ${sideName} player ${playerIndex + 1}`} onChange={(event) => onPlayerNameChange?.(side, playerIndex, event.target.value)} />
+            </label>
+          );
+        })}
       </div>}
       <div className="team-lower">
         <div className="ban-area">
@@ -170,9 +197,13 @@ function TeamPanel({ side, team, meta, editable, active, currentAction, freeMode
 }
 
 function App() {
-  const isObs = window.location.pathname.replace(/\/$/, "") === "/obs";
+  const pagePath = window.location.pathname.replace(/\/$/, "");
+  const isObs = pagePath === "/obs";
+  const isSplashGallery = pagePath === "/seeallsplash";
   const [event, setEvent] = useState({ name: "CSS ILKOM UNNES 2025", instagram: "https://www.instagram.com/css_official2026/", tagline: "Baca draft. Susun strategi. Menangkan pertandingan.", edition: "SPECIAL EVENT EDITION" });
   const [heroes, setHeroes] = useState(heroesFallback);
+  const [splashFocalPoints, setSplashFocalPoints] = useState(readSavedSplashFocusPoints);
+  const [hasSplashFocusApi, setHasSplashFocusApi] = useState(false);
   const [draft, setDraft] = useState(restoreDraft);
   const [settings, setSettings] = useState(() => {
     return readSavedAppState().settings || { mode: "standard", rank: "Mythic+", first: "blue", timed: true };
@@ -188,25 +219,68 @@ function App() {
   const searchRef = useRef(null);
 
   useEffect(() => {
-    Promise.all([fetch("/api/config", { cache: "no-store" }).then((response) => response.ok ? response.json() : null), fetch("/api/heroes", { cache: "no-store" }).then((response) => response.ok ? response.json() : null)])
-      .then(([config, roster]) => {
+    const resetProvidedPoints = localStorage.getItem(SPLASH_FOCUS_REVISION_KEY) !== SPLASH_FOCUS_REVISION;
+    Promise.all([
+      fetch("/api/config", { cache: "no-store" }).then((response) => response.ok ? response.json() : null),
+      fetch("/api/heroes", { cache: "no-store" }).then((response) => response.ok ? response.json() : null),
+      fetch("/api/splash-focus", { cache: "no-store" }).then((response) => response.ok ? response.json() : null),
+    ])
+      .then(([config, roster, savedFocalPoints]) => {
         if (config?.event) setEvent(config.event);
         if (Array.isArray(roster) && roster.length) setHeroes(roster);
+        let localFocalPoints = {};
+        try {
+          const parsed = JSON.parse(localStorage.getItem(SPLASH_FOCUS_STORAGE_KEY) || "{}");
+          if (parsed && typeof parsed === "object" && !Array.isArray(parsed)) localFocalPoints = parsed;
+        } catch {}
+        if (resetProvidedPoints) {
+          for (const key of USER_SET_SPLASH_FOCAL_KEYS) delete localFocalPoints[key];
+          localStorage.setItem(SPLASH_FOCUS_STORAGE_KEY, JSON.stringify(localFocalPoints));
+        }
+        if (savedFocalPoints && typeof savedFocalPoints === "object" && !Array.isArray(savedFocalPoints)) {
+          setHasSplashFocusApi(true);
+          const remoteFocalPoints = { ...savedFocalPoints };
+          if (resetProvidedPoints) {
+            for (const key of USER_SET_SPLASH_FOCAL_KEYS) delete remoteFocalPoints[key];
+          }
+          setSplashFocalPoints({ ...DEFAULT_SPLASH_FOCAL_POINTS, ...remoteFocalPoints, ...localFocalPoints });
+          if (resetProvidedPoints || Object.keys(localFocalPoints).length) {
+            const combined = { ...remoteFocalPoints, ...localFocalPoints };
+            fetch("/api/splash-focus", {
+              method: "POST",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify(combined),
+            }).then((response) => {
+              if (response.ok) {
+                localStorage.removeItem(SPLASH_FOCUS_STORAGE_KEY);
+                localStorage.setItem(SPLASH_FOCUS_REVISION_KEY, SPLASH_FOCUS_REVISION);
+              }
+            }).catch(() => {});
+          }
+        } else {
+          setHasSplashFocusApi(false);
+          setSplashFocalPoints({ ...DEFAULT_SPLASH_FOCAL_POINTS, ...localFocalPoints });
+          if (resetProvidedPoints) localStorage.setItem(SPLASH_FOCUS_REVISION_KEY, SPLASH_FOCUS_REVISION);
+        }
       }).catch(() => {});
   }, []);
 
   useEffect(() => {
-    if (!isObs) {
+    if (!isObs && !isSplashGallery) {
       const snapshot = JSON.stringify({ draft, settings, teamMeta, series, seconds });
       localStorage.setItem(STORAGE_KEY, snapshot);
       fetch("/api/state", { method: "POST", headers: { "Content-Type": "application/json" }, body: snapshot }).catch(() => {});
     }
-  }, [draft, settings, teamMeta, series, seconds, isObs]);
+  }, [draft, settings, teamMeta, series, seconds, isObs, isSplashGallery]);
 
   useEffect(() => {
     document.body.classList.toggle("obs-body", isObs);
-    return () => document.body.classList.remove("obs-body");
-  }, [isObs]);
+    document.body.classList.toggle("splash-review-body", isSplashGallery);
+    return () => {
+      document.body.classList.remove("obs-body");
+      document.body.classList.remove("splash-review-body");
+    };
+  }, [isObs, isSplashGallery]);
 
   useEffect(() => {
     if (!isObs) return undefined;
@@ -239,6 +313,32 @@ function App() {
     };
   }, [isObs]);
 
+  useEffect(() => {
+    const onSplashFocusStorage = (event) => {
+      if (event.key !== SPLASH_FOCUS_STORAGE_KEY || !event.newValue) return;
+      try {
+        const saved = JSON.parse(event.newValue);
+        setSplashFocalPoints({ ...DEFAULT_SPLASH_FOCAL_POINTS, ...saved });
+      } catch {}
+    };
+    window.addEventListener("storage", onSplashFocusStorage);
+    return () => window.removeEventListener("storage", onSplashFocusStorage);
+  }, []);
+
+  useEffect(() => {
+    if (!isObs || !hasSplashFocusApi) return undefined;
+    const stream = new EventSource("/api/splash-focus/stream");
+    stream.onmessage = (event) => {
+      try {
+        const saved = JSON.parse(event.data);
+        if (saved && typeof saved === "object") {
+          setSplashFocalPoints({ ...DEFAULT_SPLASH_FOCAL_POINTS, ...saved });
+        }
+      } catch {}
+    };
+    return () => stream.close();
+  }, [isObs, hasSplashFocusApi]);
+
   const turn = draft.queue[draft.turnIndex];
   const occupied = useMemo(() => new Set([
     ...draft.teams.blue.picks.filter(Boolean), ...draft.teams.red.picks.filter(Boolean),
@@ -252,7 +352,7 @@ function App() {
   const takenCount = draft.teams.blue.picks.filter(Boolean).length + draft.teams.red.picks.filter(Boolean).length;
 
   useEffect(() => {
-    if (isObs) return undefined;
+    if (isObs || isSplashGallery) return undefined;
     if (draft.status !== "drafting" || settings.mode === "free" || !settings.timed) {
       setSeconds(30);
       return undefined;
@@ -260,7 +360,7 @@ function App() {
     setSeconds(30);
     const interval = window.setInterval(() => setSeconds((value) => Math.max(0, value - 1)), 1000);
     return () => window.clearInterval(interval);
-  }, [draft.turnIndex, draft.status, settings.mode, settings.timed, isObs]);
+  }, [draft.turnIndex, draft.status, settings.mode, settings.timed, isObs, isSplashGallery]);
 
   useEffect(() => {
     if (!notice) return undefined;
@@ -278,6 +378,26 @@ function App() {
     window.addEventListener("keydown", onShortcut);
     return () => window.removeEventListener("keydown", onShortcut);
   }, []);
+
+  async function saveSplashFocalPoints(nextFocalPoints) {
+    const overrides = Object.fromEntries(Object.entries(nextFocalPoints)
+      .filter(([key, value]) => value !== DEFAULT_SPLASH_FOCAL_POINTS[key]));
+    localStorage.setItem(SPLASH_FOCUS_STORAGE_KEY, JSON.stringify(overrides));
+    setSplashFocalPoints(nextFocalPoints);
+    try {
+      const response = await fetch("/api/splash-focus", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(overrides),
+      });
+      if (response.ok) {
+        localStorage.removeItem(SPLASH_FOCUS_STORAGE_KEY);
+        setHasSplashFocusApi(true);
+        return true;
+      }
+    } catch {}
+    return false;
+  }
 
   function startDraft() {
     const next = newDraft();
@@ -308,6 +428,14 @@ function App() {
 
   function updatePlayerName(side, index, name) {
     setTeamMeta((current) => ({ ...current, [side]: { ...current[side], players: current[side].players.map((player, playerIndex) => playerIndex === index ? name : player) } }));
+  }
+
+  function updateCurrentPicker(side, playerIndex) {
+    const next = setCurrentPickPlayer(draft, side, playerIndex);
+    if (next === draft) return;
+    setDraft(next);
+    const playerName = teamMeta[side].players[playerIndex]?.trim() || `PLAYER 0${playerIndex + 1}`;
+    setNotice(`Pick ini untuk ${playerName}.`);
   }
 
   async function updateTeamLogo(side, file) {
@@ -441,7 +569,9 @@ function App() {
   const targetWins = series.format === "bestOf" ? Math.ceil(series.value / 2) : series.value;
   const seriesLabel = series.format === "bestOf" ? `BO${series.value} · FIRST TO ${targetWins}` : `FIRST TO ${series.value}`;
 
-  if (isObs) return <ObsOverlay event={event} draft={draft} teamMeta={teamMeta} series={series} seriesLabel={seriesLabel} phaseText={phaseText} seconds={seconds} timerEnabled={settings.timed && settings.mode !== "free" && draft.status === "drafting"} />;
+  if (isSplashGallery) return <SplashFocusGallery heroes={heroes} focalPoints={splashFocalPoints} onSave={saveSplashFocalPoints} />;
+
+  if (isObs) return <ObsOverlay event={event} draft={draft} teamMeta={teamMeta} series={series} seriesLabel={seriesLabel} phaseText={phaseText} seconds={seconds} timerEnabled={settings.timed && settings.mode !== "free" && draft.status === "drafting"} splashFocalPoints={splashFocalPoints} />;
 
   return (
     <main className="app-shell">
@@ -507,9 +637,9 @@ function App() {
         </div>
 
         <div className="teams-wrap">
-          <TeamPanel side="blue" team={draft.teams.blue} meta={teamMeta.blue} editable active={draft.status === "drafting" && (settings.mode === "free" ? draft.freeSide === "blue" : currentTeam === "blue")} currentAction={turn?.action} freeMode={settings.mode === "free" && draft.status === "drafting"} freeSide={draft.freeSide} freeSlot={freeSlot} swapMode={draft.status === "swapping"} selectedSwapSlots={swapSelection.filter((item) => item.side === "blue").map((item) => item.index)} onSwapSelect={(index) => selectSwapSlot("blue", index)} onNameChange={updateTeamName} onLogoChange={updateTeamLogo} onPlayerNameChange={updatePlayerName} onSelectSlot={(index) => { setDraft((state) => ({ ...state, freeSide: "blue" })); setFreeSlot(index); }} onSetFreeSide={(side) => { setDraft((state) => ({ ...state, freeSide: side })); setFreeSlot(Math.max(0, draft.teams[side].picks.findIndex((item) => !item))); }} onRemove={(kind, index) => removeHero("blue", kind, index)} />
+          <TeamPanel side="blue" team={draft.teams.blue} meta={teamMeta.blue} editable active={draft.status === "drafting" && (settings.mode === "free" ? draft.freeSide === "blue" : currentTeam === "blue")} currentAction={turn?.action} freeMode={settings.mode === "free" && draft.status === "drafting"} freeSide={draft.freeSide} freeSlot={freeSlot} swapMode={draft.status === "swapping"} selectedSwapSlots={swapSelection.filter((item) => item.side === "blue").map((item) => item.index)} onSwapSelect={(index) => selectSwapSlot("blue", index)} onPickPlayerChange={updateCurrentPicker} onNameChange={updateTeamName} onLogoChange={updateTeamLogo} onPlayerNameChange={updatePlayerName} onSelectSlot={(index) => { setDraft((state) => ({ ...state, freeSide: "blue" })); setFreeSlot(index); }} onSetFreeSide={(side) => { setDraft((state) => ({ ...state, freeSide: side })); setFreeSlot(Math.max(0, draft.teams[side].picks.findIndex((item) => !item))); }} onRemove={(kind, index) => removeHero("blue", kind, index)} />
           <div className="versus"><span>CSS</span><b>VS</b><i>UNNES<br />2025</i></div>
-          <TeamPanel side="red" team={draft.teams.red} meta={teamMeta.red} editable active={draft.status === "drafting" && (settings.mode === "free" ? draft.freeSide === "red" : currentTeam === "red")} currentAction={turn?.action} freeMode={settings.mode === "free" && draft.status === "drafting"} freeSide={draft.freeSide} freeSlot={freeSlot} swapMode={draft.status === "swapping"} selectedSwapSlots={swapSelection.filter((item) => item.side === "red").map((item) => item.index)} onSwapSelect={(index) => selectSwapSlot("red", index)} onNameChange={updateTeamName} onLogoChange={updateTeamLogo} onPlayerNameChange={updatePlayerName} onSelectSlot={(index) => { setDraft((state) => ({ ...state, freeSide: "red" })); setFreeSlot(index); }} onRemove={(kind, index) => removeHero("red", kind, index)} />
+          <TeamPanel side="red" team={draft.teams.red} meta={teamMeta.red} editable active={draft.status === "drafting" && (settings.mode === "free" ? draft.freeSide === "red" : currentTeam === "red")} currentAction={turn?.action} freeMode={settings.mode === "free" && draft.status === "drafting"} freeSide={draft.freeSide} freeSlot={freeSlot} swapMode={draft.status === "swapping"} selectedSwapSlots={swapSelection.filter((item) => item.side === "red").map((item) => item.index)} onSwapSelect={(index) => selectSwapSlot("red", index)} onPickPlayerChange={updateCurrentPicker} onNameChange={updateTeamName} onLogoChange={updateTeamLogo} onPlayerNameChange={updatePlayerName} onSelectSlot={(index) => { setDraft((state) => ({ ...state, freeSide: "red" })); setFreeSlot(index); }} onRemove={(kind, index) => removeHero("red", kind, index)} />
         </div>
       </section>
 

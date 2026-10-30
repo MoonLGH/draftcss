@@ -6,8 +6,15 @@ const event = require("../shared/event.json");
 const app = express();
 const port = process.env.PORT || 3001;
 const root = path.resolve(__dirname, "..");
+const splashFocusFile = path.join(root, "shared", "splash-focus-overrides.json");
 let sharedOverlayState = null;
+let sharedSplashFocus = {};
 const overlayClients = new Set();
+const splashFocusClients = new Set();
+
+try {
+  sharedSplashFocus = JSON.parse(fs.readFileSync(splashFocusFile, "utf8"));
+} catch {}
 
 app.use(express.json({ limit: "2mb" }));
 
@@ -18,6 +25,52 @@ app.get("/api/config", (_req, res) => {
 app.get("/api/heroes", (_req, res) => {
   const heroes = JSON.parse(fs.readFileSync(path.join(root, "shared", "heroes.json"), "utf8"));
   res.set("Cache-Control", "no-store").json(heroes);
+});
+
+app.get("/api/splash-focus", (_req, res) => {
+  res.set("Cache-Control", "no-store").json(sharedSplashFocus);
+});
+
+app.get("/api/splash-focus/stream", (req, res) => {
+  res.status(200).set({
+    "Content-Type": "text/event-stream",
+    "Cache-Control": "no-cache, no-transform",
+    Connection: "keep-alive",
+    "X-Accel-Buffering": "no",
+  });
+  res.flushHeaders();
+  splashFocusClients.add(res);
+  res.write(`data: ${JSON.stringify(sharedSplashFocus)}\n\n`);
+  const heartbeat = setInterval(() => res.write(": keep-alive\n\n"), 20000);
+  req.on("close", () => {
+    clearInterval(heartbeat);
+    splashFocusClients.delete(res);
+  });
+});
+
+app.post("/api/splash-focus", (req, res) => {
+  if (!req.body || typeof req.body !== "object" || Array.isArray(req.body)) {
+    return res.status(400).json({ error: "Invalid splash focus map" });
+  }
+  const nextFocus = {};
+  for (const [key, value] of Object.entries(req.body)) {
+    if (!/^[a-z0-9-]+$/.test(key) || !Number.isFinite(value) || value < 0 || value > 1) {
+      return res.status(400).json({ error: "Invalid splash focus entry" });
+    }
+    nextFocus[key] = value;
+  }
+  try {
+    fs.writeFileSync(splashFocusFile, `${JSON.stringify(nextFocus, null, 2)}\n`);
+  } catch {
+    return res.status(500).json({ error: "Could not save splash focus map" });
+  }
+  sharedSplashFocus = nextFocus;
+  const message = `data: ${JSON.stringify(sharedSplashFocus)}\n\n`;
+  for (const client of splashFocusClients) {
+    if (client.destroyed) splashFocusClients.delete(client);
+    else client.write(message);
+  }
+  res.status(204).end();
 });
 
 app.get("/api/state", (_req, res) => {

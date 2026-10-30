@@ -1,4 +1,17 @@
-export const EMPTY_TEAM = () => ({ picks: [], bans: [] });
+const PLAYER_ORDER = [0, 1, 2, 3, 4];
+const normalizePlayerOrder = (order) => Array.isArray(order)
+  && order.length === PLAYER_ORDER.length
+  && new Set(order).size === PLAYER_ORDER.length
+  && order.every((playerIndex) => PLAYER_ORDER.includes(playerIndex))
+  ? [...order]
+  : [...PLAYER_ORDER];
+const copyTeam = (team) => ({
+  picks: [...team.picks],
+  bans: [...team.bans],
+  pickOrder: normalizePlayerOrder(team.pickOrder),
+});
+
+export const EMPTY_TEAM = () => ({ picks: [], bans: [], pickOrder: [...PLAYER_ORDER] });
 
 export function newDraft() {
   return {
@@ -54,8 +67,8 @@ export function applyHero(state, hero, mode) {
 
   const snapshot = {
     teams: {
-      blue: { picks: [...state.teams.blue.picks], bans: [...state.teams.blue.bans] },
-      red: { picks: [...state.teams.red.picks], bans: [...state.teams.red.bans] },
+      blue: copyTeam(state.teams.blue),
+      red: copyTeam(state.teams.red),
     },
     turnIndex: state.turnIndex,
     status: state.status,
@@ -77,6 +90,35 @@ export function applyHero(state, hero, mode) {
   };
 }
 
+export function setCurrentPickPlayer(state, side, playerIndex) {
+  const turn = state.queue[state.turnIndex];
+  if (state.status !== "drafting" || turn?.action !== "pick" || turn.team !== side || !PLAYER_ORDER.includes(playerIndex)) return state;
+
+  const team = state.teams[side];
+  const currentPickIndex = team.picks.length;
+  if (currentPickIndex >= PLAYER_ORDER.length) return state;
+  const pickOrder = normalizePlayerOrder(team.pickOrder);
+  const targetIndex = pickOrder.indexOf(playerIndex);
+  if (targetIndex < currentPickIndex || targetIndex < 0) return state;
+  if (targetIndex === currentPickIndex) return state;
+
+  const snapshot = {
+    teams: {
+      blue: copyTeam(state.teams.blue),
+      red: copyTeam(state.teams.red),
+    },
+    turnIndex: state.turnIndex,
+    status: state.status,
+    swapCompleted: state.swapCompleted || false,
+  };
+  [pickOrder[currentPickIndex], pickOrder[targetIndex]] = [pickOrder[targetIndex], pickOrder[currentPickIndex]];
+  return {
+    ...state,
+    teams: { ...state.teams, [side]: { ...team, pickOrder } },
+    history: [...state.history, snapshot],
+  };
+}
+
 export function swapHeroes(state, side, firstIndex, secondIndex) {
   if (state.status !== "swapping" || !["blue", "red"].includes(side) || firstIndex === secondIndex) return state;
   const team = state.teams[side];
@@ -84,8 +126,8 @@ export function swapHeroes(state, side, firstIndex, secondIndex) {
 
   const snapshot = {
     teams: {
-      blue: { picks: [...state.teams.blue.picks], bans: [...state.teams.blue.bans] },
-      red: { picks: [...state.teams.red.picks], bans: [...state.teams.red.bans] },
+      blue: copyTeam(state.teams.blue),
+      red: copyTeam(state.teams.red),
     },
     turnIndex: state.turnIndex,
     status: state.status,

@@ -40,7 +40,6 @@ body.obs-body #root { width: 100%; height: 100%; }
 .obs-phase i { width: 5px; height: 5px; flex: 0 0 auto; border-radius: 50%; background: #65738a; }
 .obs-phase i.is-live { background: #54d58a; box-shadow: 0 0 8px #54d58a; }
 .obs-clock { display: flex; align-items: center; gap: 5px; color: #fff; font: 700 11px var(--mono); }
-.obs-clock span { color: #f2c263; }
 .obs-clock.is-low { color: #ff7778; }
 
 .obs-draft-board { position: absolute; left: 0; bottom: 0; width: 100vw; display: grid; grid-template-columns: 40vw 20vw 40vw; align-items: stretch; }
@@ -73,7 +72,6 @@ body.obs-body #root { width: 100%; height: 100%; }
 .obs-pick-copy::-webkit-scrollbar { display: none; }
 .obs-player-name { display: block; width: 100%; max-width: 100%; color: #f4d180; font: 700 clamp(8px, .78vw, 13px)/1.18 var(--mono); letter-spacing: .025em; overflow-wrap: anywhere; word-break: normal; white-space: normal; }
 .obs-pick-copy strong { display: block; max-width: 100%; color: #f0f4fa; font: 700 clamp(9px, .88vw, 14px)/1.15 var(--display); overflow-wrap: anywhere; word-break: normal; }
-.obs-pick-copy small { color: #b2bfd1; font: 700 7px var(--mono); text-transform: uppercase; }
 .obs-slot-index { position: absolute; z-index: 2; top: 5px; left: 5px; color: #c5d3e5; font: 7px var(--mono); text-shadow: 0 1px 5px #000; }
 .obs-slot-plus { align-self: center; margin: auto; color: rgba(189, 204, 225, .38); font: 26px var(--display); }
 .obs-empty-player { position: absolute; inset: auto 0 0; box-sizing: border-box; max-height: 60%; padding: 5px 4px; color: #b9c5d5; background: rgba(5, 10, 18, .76); text-align: center; font: 7px/1.2 var(--mono); overflow-x: hidden; overflow-y: auto; overflow-wrap: anywhere; white-space: normal; scrollbar-width: none; }
@@ -107,3 +105,44 @@ body.obs-body #root { width: 100%; height: 100%; }
   .series-score-controls { width: 100%; justify-content: space-between; }
   .switch-side-button { margin-left: auto; }
 }
+
+.obs-overlay { isolation: isolate; }
+.obs-draft-board { bottom: 0; grid-template-columns: 37.5vw 26vw 36.5vw; }
+.obs-team-column { padding: 18px 0 0; border-radius: 7px 7px 0 0; }
+.obs-ban-slot { flex-basis: clamp(40px, 3.9vw, 54px); width: clamp(40px, 3.9vw, 54px); }
+.obs-picks { gap: 0; margin: 0; padding: 0; }
+.obs-pick-slot { height: clamp(170px, 32.9vh, 350px); }
+.obs-pick-art::before { inset: 0; background-position: var(--splash-position, center bottom); animation: obs-splash-levitate 9s ease-in-out infinite; animation-delay: var(--splash-delay, 0s); transform-origin: center; will-change: transform; }
+.obs-match-center { align-self: stretch; min-height: 0; position: relative; box-sizing: border-box; padding: 17px clamp(9px, 1.2vw, 18px) 12px; display: flex; flex-direction: column; align-items: stretch; justify-content: flex-end; gap: 0; border: 0; border-radius: 0; background: linear-gradient(180deg, rgba(32, 42, 59, .98), rgba(12, 18, 29, .98)); box-shadow: none; }
+.obs-center-logos { position: relative; min-height: 46px; flex: 0 0 auto; display: flex; align-items: flex-start; justify-content: space-between; }
+.obs-center-logos .obs-team-logo { width: 32px; height: 32px; border-radius: 4px; font-size: 14px; }
+.obs-center-logos .obs-team-logo.blue { width: 44px; height: 44px; font-size: 19px; }
+.obs-center-logos .obs-team-logo.red { width: 44px; height: 44px; font-size: 19px; }
+.obs-center-logos .obs-match-clock { position: absolute; z-index: 3; bottom: calc(100% + 4px); left: 50%; transform: translateX(-50%); white-space: nowrap; }
+.obs-center-vs { position: absolute; top: 50%; left: 50%; color: #f4cb79; font: 800 clamp(10px, .9vw, 13px)/1 var(--display); letter-spacing: .14em; transform: translate(-50%, -50%); }
+.obs-center-logos .obs-team-logo.blue { color: #85baff; }
+.obs-center-logos .obs-team-logo.blue { position: absolute; left: 25%; transform: translateX(-50%); }
+.obs-center-logos .obs-team-logo.red { position: absolute; left: 75%; transform: translateX(-50%); }
+.obs-center-logos .obs-team-logo.red { color: #ff999b; }
+.obs-center-teams { position: relative; min-height: 116px; flex: 0 0 auto; margin-top: 9px; display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); }
+.obs-center-teams::after { content: ""; position: absolute; top: 8px; bottom: 8px; left: 50%; width: 1px; background: rgba(221, 232, 247, .16); transform: translateX(-50%); }
+.obs-center-team { min-width: 0; padding: 11px 8px 8px; display: flex; flex-direction: column; align-items: flex-start; justify-content: flex-start; gap: 12px; text-align: left; }
+.obs-center-team.blue { align-items: center; text-align: center; }
+.obs-center-team.blue .obs-team-name { align-items: center; text-align: center; }
+.obs-center-team.red { align-items: center; text-align: center; }
+.obs-center-team.red .obs-team-name { align-items: center; text-align: center; }
+.obs-center-team .obs-team-name strong { max-width: 100%; font-size: clamp(11px, 1vw, 16px); }
+.obs-center-team.blue .obs-team-name small { font-size: clamp(8px, .72vw, 10px); }
+.obs-center-team.blue .obs-team-name strong { font-size: clamp(15px, 1.35vw, 20px); }
+.obs-center-team.red .obs-team-name small { font-size: clamp(8px, .72vw, 10px); }
+.obs-center-team.red .obs-team-name strong { font-size: clamp(15px, 1.35vw, 20px); }
+.obs-center-team.blue .obs-team-name small { color: #96afd1; }
+.obs-center-team.red .obs-team-name small { color: #d99b9f; }
+.obs-score-bars { display: flex; align-items: center; gap: 4px; }
+.obs-score-bar { width: 15px; height: 40px; box-sizing: border-box; border: 1px solid rgba(180, 197, 220, .46); border-radius: 3px; background: rgba(180, 197, 220, .1); }
+.obs-score-bar.blue { border-color: rgba(76, 153, 251, .65); background: rgba(76, 153, 251, .1); }
+.obs-score-bar.blue.is-filled { background: #3988f4; box-shadow: 0 0 8px rgba(57, 136, 244, .5); }
+.obs-score-bar.red { border-color: rgba(241, 117, 110, .65); background: rgba(241, 117, 110, .1); }
+.obs-score-bar.red.is-filled { background: #e95c62; box-shadow: 0 0 8px rgba(233, 92, 98, .5); }
+.obs-team-column.blue { border-right: 0; }
+.obs-team-column.red { border-left: 0; }

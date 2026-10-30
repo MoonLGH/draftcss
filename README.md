@@ -18,7 +18,7 @@ Buka alamat Vite yang tampil di terminal. Gunakan Node.js 20.19 atau lebih baru.
 - First pick Blue atau Red, timer 30 detik atau mode santai.
 - Cari dan filter hero berdasarkan role, lihat pick/ban, role, dan tipe damage.
 - Undo, restart, bagikan ringkasan draft, serta simpan draft otomatis di browser.
-- Setelah 10 hero ter-pick, masuk ke fase swap untuk menukar hero antar pemain dalam tim yang sama sebelum draft dikunci.
+- Saat giliran pick, picker bisa diubah ke pemain lain yang belum mendapat hero; setelah 10 hero ter-pick, tim masuk ke fase swap sebelum draft dikunci.
 - Mode Bebas mengizinkan pemilihan slot hero secara manual.
 - Portrait lokal dipakai untuk pool hero dan ikon ban; splash art dipakai sekali sebagai gambar utama pada kartu pick agar tidak bertumpuk dengan portrait kedua. Sumber asset tercatat di manifest.
 - Nama tim, logo, dan lima username/IGN per tim bisa diedit; format seri mendukung Best of atau First to, skor bisa diedit, dan sisi Blue/Red bisa ditukar.
