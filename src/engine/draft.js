@@ -3,6 +3,7 @@ export const EMPTY_TEAM = () => ({ picks: [], bans: [] });
 export function newDraft() {
   return {
     status: "setup",
+    swapCompleted: false,
     mode: "standard",
     teams: { blue: EMPTY_TEAM(), red: EMPTY_TEAM() },
     queue: [],
@@ -43,7 +44,7 @@ export function createQueue(mode, banCount, first = "blue") {
 export function applyHero(state, hero, mode) {
   if (state.status !== "drafting") return state;
   const turn = state.queue[state.turnIndex];
-  if (!turn) return { ...state, status: "complete" };
+  if (!turn) return { ...state, status: "swapping" };
   const team = state.teams[turn.team];
   const other = state.teams[turn.team === "blue" ? "red" : "blue"];
   const picked = [...state.teams.blue.picks, ...state.teams.red.picks].some((item) => item.name === hero.name);
@@ -57,6 +58,8 @@ export function applyHero(state, hero, mode) {
       red: { picks: [...state.teams.red.picks], bans: [...state.teams.red.bans] },
     },
     turnIndex: state.turnIndex,
+    status: state.status,
+    swapCompleted: state.swapCompleted || false,
   };
   const changedTeam = {
     ...team,
@@ -64,13 +67,43 @@ export function applyHero(state, hero, mode) {
   };
   const teams = { ...state.teams, [turn.team]: changedTeam };
   const turnIndex = state.turnIndex + 1;
+  const pickCount = teams.blue.picks.length + teams.red.picks.length;
   return {
     ...state,
     teams,
     turnIndex,
     history: [...state.history, snapshot],
-    status: turnIndex >= state.queue.length ? "complete" : "drafting",
+    status: pickCount === 10 ? "swapping" : turnIndex >= state.queue.length ? "complete" : "drafting",
   };
+}
+
+export function swapHeroes(state, side, firstIndex, secondIndex) {
+  if (state.status !== "swapping" || !["blue", "red"].includes(side) || firstIndex === secondIndex) return state;
+  const team = state.teams[side];
+  if (!team?.picks[firstIndex] || !team?.picks[secondIndex]) return state;
+
+  const snapshot = {
+    teams: {
+      blue: { picks: [...state.teams.blue.picks], bans: [...state.teams.blue.bans] },
+      red: { picks: [...state.teams.red.picks], bans: [...state.teams.red.bans] },
+    },
+    turnIndex: state.turnIndex,
+    status: state.status,
+    swapCompleted: state.swapCompleted || false,
+  };
+  const picks = [...team.picks];
+  [picks[firstIndex], picks[secondIndex]] = [picks[secondIndex], picks[firstIndex]];
+
+  return {
+    ...state,
+    teams: { ...state.teams, [side]: { ...team, picks } },
+    history: [...state.history, snapshot],
+  };
+}
+
+export function finishSwap(state) {
+  if (state.status !== "swapping") return state;
+  return { ...state, status: "complete", swapCompleted: true };
 }
 
 export function undoDraft(state) {
@@ -81,6 +114,7 @@ export function undoDraft(state) {
     teams: previous.teams,
     turnIndex: previous.turnIndex,
     history: state.history.slice(0, -1),
-    status: "drafting",
+    status: previous.status || "drafting",
+    swapCompleted: previous.swapCompleted || false,
   };
 }
