@@ -15,6 +15,8 @@ Buka alamat Vite yang tampil di terminal. Gunakan Node.js 20.19 atau lebih baru.
 
 - Mode Standar, MPL / Pro, dan Bebas.
 - Jumlah ban Standar mengikuti rank: Epic 3, Legend 4, Mythic+ 5 per tim.
+- Tombol No Ban melewati giliran ban tanpa memilih hero; langkahnya tetap bisa dibatalkan dengan Undo.
+- Halaman utama memakai layout latihan draft full-screen dengan scoreboard, hero pool, dan slot pick/ban.
 - First pick Blue atau Red, timer 30 detik atau mode santai.
 - Cari dan filter hero berdasarkan role, lihat pick/ban, role, dan tipe damage.
 - Undo, restart, bagikan ringkasan draft, serta simpan draft otomatis di browser.

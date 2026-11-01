@@ -90,6 +90,36 @@ export function applyHero(state, hero, mode) {
   };
 }
 
+export function skipBan(state) {
+  if (state.status !== "drafting") return state;
+  const turn = state.queue[state.turnIndex];
+  if (turn?.action !== "ban") return state;
+
+  const snapshot = {
+    teams: {
+      blue: copyTeam(state.teams.blue),
+      red: copyTeam(state.teams.red),
+    },
+    turnIndex: state.turnIndex,
+    status: state.status,
+    swapCompleted: state.swapCompleted || false,
+  };
+  const team = state.teams[turn.team];
+  const teams = {
+    ...state.teams,
+    [turn.team]: { ...team, bans: [...team.bans, { name: "NO BAN", skipped: true }] },
+  };
+  const turnIndex = state.turnIndex + 1;
+  const pickCount = teams.blue.picks.length + teams.red.picks.length;
+  return {
+    ...state,
+    teams,
+    turnIndex,
+    history: [...state.history, snapshot],
+    status: pickCount === 10 ? "swapping" : turnIndex >= state.queue.length ? "complete" : "drafting",
+  };
+}
+
 export function setCurrentPickPlayer(state, side, playerIndex) {
   const turn = state.queue[state.turnIndex];
   if (state.status !== "drafting" || turn?.action !== "pick" || turn.team !== side || !PLAYER_ORDER.includes(playerIndex)) return state;

@@ -5,6 +5,7 @@ import "./styles.css";
 import "./hero-art.css";
 import "./obs.css";
 import "./splash-review.css";
+import "./training.css";
 
 const pagePath = window.location.pathname.replace(/\/$/, "");
 if (pagePath === "/obs") document.body.classList.add("obs-body");
