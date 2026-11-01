@@ -29,3 +29,11 @@ Buka alamat Vite yang tampil di terminal. Gunakan Node.js 20.19 atau lebih baru.
 Roster 133 hero awal disimpan di `shared/heroes.json` agar mudah diperbarui oleh panitia.
 Untuk menyegarkan data dan aset dari halaman referensi, jalankan `npm run assets:sync`.
 Tambahkan alamat aplikasi dengan akhiran `/obs` sebagai Browser Source di OBS; halaman utama mengirim state draft ke overlay melalui server Node.
+
+## Deploy ke Vercel
+
+`vercel.json` mengatur build Vite, folder output `dist`, fungsi API, dan fallback SPA untuk `/obs` serta route aplikasi lainnya. Gunakan Node.js 22.
+
+Sinkronisasi state draft dan pengaturan fokus gambar memakai Upstash Redis REST agar tetap tersimpan dan tersiar antar-instance Vercel. Buat database Redis, lalu tambahkan `UPSTASH_REDIS_REST_URL` dan `UPSTASH_REDIS_REST_TOKEN` sebagai environment variables server-side di Vercel untuk Production dan Preview. Jangan beri prefix `VITE_` pada token. Contoh nama variabel ada di `.env.example`.
+
+Setelah variabel diisi, hubungkan repository ke Vercel dan deploy dari root proyek. Deploy Preview bisa dipakai untuk mengecek `/`, `/obs`, `/api/config`, dan sinkronisasi OBS sebelum Production.
