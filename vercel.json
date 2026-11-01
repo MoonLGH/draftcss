@@ -7,11 +7,7 @@
   "functions": {
     "api/**/*.js": {
       "maxDuration": 300,
-      "includeFiles": [
-        "shared/event.json",
-        "shared/heroes.json",
-        "shared/splash-focus-overrides.json"
-      ]
+      "includeFiles": "shared/**/*.json"
     }
   },
   "rewrites": [
