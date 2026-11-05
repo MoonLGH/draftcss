@@ -148,7 +148,7 @@ function broadcastLocal(clients, message) {
 app.use(express.json({ limit: "2mb" }));
 
 app.get("/api/config", (_req, res) => {
-  res.json({ event, modes: ["standard", "mpl", "free"], timerSeconds: 30 });
+  res.json({ event, modes: ["standard", "mpl", "alternating", "free"], timerSeconds: 30 });
 });
 
 app.get("/api/heroes", (_req, res) => {

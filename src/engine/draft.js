@@ -39,7 +39,12 @@ export function createQueue(mode, banCount, first = "blue") {
     for (let i = 0; i < count; i++) queue.push({ team: other, action: "ban" });
   };
 
-  if (mode === "mpl") {
+  if (mode === "alternating") {
+    for (let i = 0; i < Math.min(3, banCount); i++) {
+      queue.push({ team: first, action: "ban" }, { team: other, action: "ban" });
+    }
+    pickOrder(first).forEach((team) => queue.push({ team, action: "pick" }));
+  } else if (mode === "mpl") {
     addBanWave(3);
     pickOrder(first).slice(0, 6).forEach((team) => queue.push({ team, action: "pick" }));
     addBanWave(2);

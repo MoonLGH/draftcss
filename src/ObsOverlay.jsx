@@ -1,4 +1,19 @@
 import React, { useEffect, useMemo, useState } from "react";
+import pddBackground from "../codex/bg toska.png";
+import blueBanCircle from "../codex/Bulet biru.png";
+import redBanCircle from "../codex/Bulet merah.png";
+import blueBanSlash from "../codex/biru - garis dalam buletan.png";
+import redBanSlash from "../codex/merah - garis dalam buletan.png";
+import bluePickFrame from "../codex/Kotak biru.png";
+import redPickFrame from "../codex/Kotak merah.png";
+import blueScoreFrame from "../codex/Kotak score Blue Side.png";
+import redScoreFrame from "../codex/Kotak score Red side.png";
+import blueScoreMarks from "../codex/Biru garis dibawah kotak score.png";
+import redScoreMarks from "../codex/Merah garis dibawah kotak score.png";
+import blueNameplate from "../codex/Name box biru.png";
+import redNameplate from "../codex/Name box merah.png";
+import pddLogo from "../codex/Logo draft pick.png";
+import sponsorStrip from "../codex/looping sponsor.png";
 import { getSplashBackgroundPosition } from "./splashFocus.js";
 import { analyzeDraft } from "./draftAnalysis.js";
 
@@ -50,52 +65,84 @@ function AnalysisPanel({ analysis }) {
   );
 }
 
-function BroadcastTeam({ side, team, meta, active, splashFocalPoints }) {
-  const picks = team.picks || [];
-  const bans = team.bans || [];
-
-  return (
-    <section className={`obs-team-column ${side} ${active ? "obs-active-side" : ""}`}>
-      <div className="obs-bans">
-        {Array.from({ length: 5 }, (_, index) => {
-          const hero = bans[index];
-          return <div className={`obs-ban-slot ${hero && !hero.skipped ? "has-hero" : ""} ${hero?.skipped ? "no-ban" : ""}`} key={index}>
-            {hero?.skipped ? <span>NO BAN</span> : hero ? <><img src={hero.portrait} alt="" loading="lazy" /><i aria-hidden="true">X</i></> : <span>{String(index + 1).padStart(2, "0")}</span>}
-          </div>;
-        })}
-      </div>
-
-      <div className="obs-picks">
-        {Array.from({ length: 5 }, (_, index) => {
-          const hero = picks[index];
-          const playerIndex = team.pickOrder?.[index] ?? index;
-          const username = String(meta.players?.[playerIndex] || "").trim() || `PLAYER 0${playerIndex + 1}`;
-          return <div className={`obs-pick-slot ${hero ? "has-hero" : ""}`} key={index}>
-            {hero ? <>
-              <div className="obs-pick-art" style={{ "--pick-art": `url("${hero.splashArt || hero.portrait || ""}")`, "--splash-position": getSplashBackgroundPosition(hero, splashFocalPoints), "--splash-delay": `${index * -2.4}s` }}>
-                <div className="obs-pick-copy">
-                  <span className="obs-player-name" title={username}>{username}</span>
-                  <strong>{hero.name}</strong>
-                </div>
-              </div>
-            </> : <>
-              <span className="obs-slot-index">0{index + 1}</span>
-              <span className="obs-slot-plus">+</span>
-              <span className="obs-empty-player">{username}</span>
-            </>}
-          </div>;
-        })}
-      </div>
-    </section>
-  );
+function PddBanRow({ side, team, active }) {
+  const circle = side === "blue" ? blueBanCircle : redBanCircle;
+  const slash = side === "blue" ? blueBanSlash : redBanSlash;
+  return <div className={`pdd-bans ${side} ${active ? "is-active" : ""}`} aria-label={`${side} bans`}>
+    {Array.from({ length: 5 }, (_, index) => {
+      const hero = team.bans?.[index];
+      const label = hero?.skipped ? "No ban" : hero ? `Ban ${hero.name}` : `Slot ban ${index + 1} kosong`;
+      return <div className={`pdd-ban-slot ${side} ${hero && !hero.skipped ? "has-ban" : ""} ${hero?.skipped ? "no-ban" : ""}`} role="img" aria-label={label} key={index}>
+        {hero && !hero.skipped && hero.portrait && <img className="pdd-ban-portrait" src={hero.portrait} alt="" decoding="async" />}
+        <img className="pdd-ban-circle" src={circle} alt="" aria-hidden="true" />
+        {!hero?.skipped && <img className="pdd-ban-slash" src={slash} alt="" aria-hidden="true" />}
+        {hero?.skipped && <span className="pdd-no-ban">NO BAN</span>}
+      </div>;
+    })}
+  </div>;
 }
 
-export default function ObsOverlay({ draft, teamMeta, series, seconds, timerEnabled, splashFocalPoints }) {
+function PddPickRow({ side, team, meta, active, splashFocalPoints }) {
+  const frame = side === "blue" ? bluePickFrame : redPickFrame;
+  const nameplate = side === "blue" ? blueNameplate : redNameplate;
+  return <div className={`pdd-picks ${side} ${active ? "is-active" : ""}`}>
+    {Array.from({ length: 5 }, (_, index) => {
+      const hero = team.picks?.[index];
+      const playerIndex = team.pickOrder?.[index] ?? index;
+      const username = String(meta.players?.[playerIndex] || "").trim() || `PLAYER 0${playerIndex + 1}`;
+      return <div className={`pdd-pick-slot ${side} ${hero ? "has-hero" : ""}`} key={index} style={{ "--pick-frame": `url("${frame}")` }}>
+        {hero && <span className="pdd-pick-art" style={{
+          "--pick-art": `url("${hero.splashArt || hero.portrait}")`,
+          "--splash-position": getSplashBackgroundPosition(hero, splashFocalPoints),
+          "--splash-delay": `${index * -2.4}s`,
+        }} />}
+        <div className="pdd-pick-copy">
+          <img className="pdd-nameplate" src={nameplate} alt="" aria-hidden="true" />
+          <span className="pdd-player-name" title={username}>{username}</span>
+          {hero && <strong>{hero.name}</strong>}
+        </div>
+      </div>;
+    })}
+  </div>;
+}
+
+function SeriesScoreMarks({ side, score, targetWins }) {
+  const art = side === "blue" ? blueScoreMarks : redScoreMarks;
+  if (targetWins === 2) {
+    const filledWidth = `${Math.min(1, Math.max(0, score / targetWins)) * 100}%`;
+    return <span className={`pdd-score-marks-art ${side}`} role="img" aria-label={`${score} dari ${targetWins} kemenangan`}>
+      <img src={art} alt="" aria-hidden="true" />
+      <img className="is-filled" src={art} alt="" aria-hidden="true" style={{ clipPath: `inset(0 ${100 - Number.parseFloat(filledWidth)}% 0 0)` }} />
+    </span>;
+  }
+  return <span className={`pdd-score-marks ${side}`} role="img" aria-label={`${score} dari ${targetWins} kemenangan`}>
+    {Array.from({ length: targetWins }, (_, index) => <i className={index < score ? "is-filled" : ""} key={index} />)}
+  </span>;
+}
+
+function PddTeamScore({ side, team, score, targetWins }) {
+  const frame = side === "blue" ? blueScoreFrame : redScoreFrame;
+  return <div className={`pdd-score-side ${side}`}>
+    <span className="pdd-score-mark">
+      <img className="pdd-score-frame" src={frame} alt="" aria-hidden="true" />
+      {team.logo ? <img className="pdd-score-team-logo" src={team.logo} alt="" /> : <b>{side === "blue" ? "B" : "R"}</b>}
+    </span>
+    <strong className="pdd-score-team-name" title={team.name}>{team.name}</strong>
+    <b className="pdd-score-value">{score}<span>/{targetWins}</span></b>
+    <SeriesScoreMarks side={side} score={score} targetWins={targetWins} />
+  </div>;
+}
+
+export default function ObsOverlay({ event, draft, teamMeta, series, splashFocalPoints }) {
   const [analysisOpen, setAnalysisOpen] = useState(false);
   const currentTurn = draft.queue[draft.turnIndex];
   const targetWins = series.format === "bestOf" ? Math.ceil(series.value / 2) : series.value;
   const blueActive = draft.status === "drafting" && (currentTurn?.team === "blue" || (!currentTurn && draft.mode === "free" && draft.freeSide === "blue"));
   const redActive = draft.status === "drafting" && (currentTurn?.team === "red" || (!currentTurn && draft.mode === "free" && draft.freeSide === "red"));
+  const blueBanActive = blueActive && currentTurn?.action === "ban";
+  const redBanActive = redActive && currentTurn?.action === "ban";
+  const bluePickActive = blueActive && (currentTurn?.action === "pick" || draft.mode === "free");
+  const redPickActive = redActive && (currentTurn?.action === "pick" || draft.mode === "free");
   const analysis = useMemo(
     () => analyzeDraft(draft.teams.blue.picks || [], draft.teams.red.picks || []),
     [draft.teams.blue.picks, draft.teams.red.picks],
@@ -113,33 +160,23 @@ export default function ObsOverlay({ draft, teamMeta, series, seconds, timerEnab
   }, []);
 
   return (
-    <main className="obs-overlay">
-      <section className="obs-draft-board">
-        <BroadcastTeam side="blue" team={draft.teams.blue} meta={teamMeta.blue} active={blueActive} splashFocalPoints={splashFocalPoints} />
-        <section className={`obs-match-center ${analysisOpen ? "is-analysis" : ""}`}>
-          <div className="obs-center-logos">
-            <div className="obs-team-logo blue">{teamMeta.blue.logo ? <img src={teamMeta.blue.logo} alt="" /> : <span>B</span>}</div>
-            <div className={`obs-clock obs-match-clock ${seconds <= 5 && seconds > 0 ? "is-low" : ""}`}>{draft.status === "drafting" && timerEnabled ? `00:${String(seconds).padStart(2, "0")}` : draft.status === "drafting" ? "∞" : "--:--"}</div>
-            <div className="obs-center-vs">VS</div>
-            <div className="obs-team-logo red">{teamMeta.red.logo ? <img src={teamMeta.red.logo} alt="" /> : <span>R</span>}</div>
-          </div>
-          <div className="obs-center-teams">
-            <div className="obs-center-team blue">
-              <div className="obs-team-name"><small>BLUE SIDE</small><strong>{teamMeta.blue.name}</strong></div>
-              <div className="obs-score-bars" role="img" aria-label={`Skor Blue ${series.blueScore} dari ${targetWins}`}>
-                {Array.from({ length: targetWins }, (_, index) => <span className={`obs-score-bar blue ${index < series.blueScore ? "is-filled" : ""}`} aria-hidden="true" key={index} />)}
-              </div>
-            </div>
-            <div className="obs-center-team red">
-              <div className="obs-team-name"><small>RED SIDE</small><strong>{teamMeta.red.name}</strong></div>
-              <div className="obs-score-bars" role="img" aria-label={`Skor Red ${series.redScore} dari ${targetWins}`}>
-                {Array.from({ length: targetWins }, (_, index) => <span className={`obs-score-bar red ${index < series.redScore ? "is-filled" : ""}`} aria-hidden="true" key={index} />)}
-              </div>
-            </div>
+    <main className="obs-overlay pdd-overlay">
+      <section className="pdd-draft-board">
+        <img className="pdd-background" src={pddBackground} alt="" aria-hidden="true" />
+        <img className="pdd-sponsor-strip" src={sponsorStrip} alt="" aria-hidden="true" />
+        <PddBanRow side="blue" team={draft.teams.blue} active={blueBanActive} />
+        <PddBanRow side="red" team={draft.teams.red} active={redBanActive} />
+        <section className={`pdd-center ${analysisOpen ? "is-analysis" : ""}`}>
+          <img className="pdd-main-logo" src={pddLogo} alt={event.shortName || "Draft Pick"} />
+          <div className="pdd-score-row">
+            <PddTeamScore side="blue" team={teamMeta.blue} score={series.blueScore} targetWins={targetWins} />
+            <strong className="pdd-vs">VS</strong>
+            <PddTeamScore side="red" team={teamMeta.red} score={series.redScore} targetWins={targetWins} />
           </div>
           <AnalysisPanel analysis={analysis} />
         </section>
-        <BroadcastTeam side="red" team={draft.teams.red} meta={teamMeta.red} active={redActive} splashFocalPoints={splashFocalPoints} />
+        <PddPickRow side="blue" team={draft.teams.blue} meta={teamMeta.blue} active={bluePickActive} splashFocalPoints={splashFocalPoints} />
+        <PddPickRow side="red" team={draft.teams.red} meta={teamMeta.red} active={redPickActive} splashFocalPoints={splashFocalPoints} />
       </section>
     </main>
   );

@@ -475,6 +475,9 @@ body:has(.training-screen) {
   .training-screen .mode-choice { flex: 1; min-width: 0; min-height: 34px; padding: 4px; }
   .training-screen .mode-name { font-size: 10px; }
   .training-screen .mode-name small { display: none; }
+  .training-screen .mode-index,
+  .training-screen .mode-check { display: none; }
+  .training-screen .mode-choice { justify-content: center; }
   .training-screen .setup-fields { width: 100%; justify-content: center; gap: 3px; }
   .training-screen .setup-select,
   .training-screen .timer-toggle,

@@ -4,6 +4,7 @@ import App from "./App.jsx";
 import "./styles.css";
 import "./hero-art.css";
 import "./obs.css";
+import "./pdd-overlay.css";
 import "./splash-review.css";
 import "./training.css";
 

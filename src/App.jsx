@@ -11,7 +11,8 @@ const RANK_BANS = { Epic: 3, Legend: 4, "Mythic+": 5 };
 const MODE_COPY = {
   standard: { label: "Standar", sub: "Ranked snake draft", mark: "01" },
   mpl: { label: "MPL / Pro", sub: "Ban di tengah draft", mark: "02" },
-  free: { label: "Bebas", sub: "Susun tanpa urutan", mark: "03" },
+  alternating: { label: "Ban Bergilir", sub: "3 ban bergantian lalu pick", mark: "03" },
+  free: { label: "Bebas", sub: "Susun tanpa urutan", mark: "04" },
 };
 const ICONS = { search: "⌕", back: "↶", restart: "⟳", share: "↗", down: "⌄", close: "×" };
 const STORAGE_KEY = "css-draft-lab-v1";
@@ -152,7 +153,7 @@ function RoleBars({ heroes }) {
   );
 }
 
-function TeamPanel({ side, team, meta, editable, active, currentAction, freeMode, freeSide, freeSlot, swapMode, selectedSwapSlots, onNameChange, onLogoChange, onPlayerNameChange, onSelectSlot, onRemove, onSetFreeSide, onSwapSelect, onPickPlayerChange }) {
+function TeamPanel({ side, team, meta, editable, active, currentAction, freeMode, freeSide, freeSlot, swapMode, selectedSwapSlots, maxBanCount, onNameChange, onLogoChange, onPlayerNameChange, onSelectSlot, onRemove, onSetFreeSide, onSwapSelect, onPickPlayerChange }) {
   const sideName = side === "blue" ? "BLUE SIDE" : "RED SIDE";
   const isBlue = side === "blue";
   const pickOrder = team.pickOrder?.length === 5 ? team.pickOrder : [0, 1, 2, 3, 4];
@@ -195,7 +196,7 @@ function TeamPanel({ side, team, meta, editable, active, currentAction, freeMode
             side={side}
             action="pick"
             playerIndex={pickOrder[index] ?? index}
-            playerName={String(meta.players?.[pickOrder[index] ?? index] || "").trim()}
+            playerName={String(meta.players?.[pickOrder[index] ?? index] || "")}
             onPlayerNameChange={onPlayerNameChange}
             activeTurn={isPicking && index === currentSlotIndex && !team.picks[index]}
             selected={swapMode ? selectedSwapSlots?.includes(index) : freeMode && freeSide === side && index === freeSlot}
@@ -219,7 +220,7 @@ function TeamPanel({ side, team, meta, editable, active, currentAction, freeMode
       </div></details>}
       <div className="team-lower">
         <div className="ban-area">
-          <span className="micro-label">BAN HERO <b>{team.bans.filter((ban) => !ban.skipped).length}/5</b></span>
+          <span className="micro-label">BAN HERO <b>{team.bans.filter((ban) => !ban.skipped).length}/{maxBanCount}</b></span>
           <div className="ban-list">
             {Array.from({ length: 5 }, (_, index) => (
               <TeamSlot key={index} hero={team.bans[index]} index={index} side={side} action="ban" activeTurn={isBanning && index === team.bans.length} onRemove={() => onRemove?.("bans", index)} />
@@ -453,7 +454,7 @@ function App() {
     const next = newDraft();
     next.mode = settings.mode;
     next.status = "drafting";
-    next.queue = settings.mode === "free" ? [] : createQueue(settings.mode, settings.mode === "mpl" ? 3 : RANK_BANS[settings.rank], settings.first);
+    next.queue = settings.mode === "free" ? [] : createQueue(settings.mode, ["mpl", "alternating"].includes(settings.mode) ? 3 : RANK_BANS[settings.rank], settings.first);
     setDraft(next);
     setFreeSlot(0);
     setSwapSelection([]);
@@ -622,14 +623,14 @@ function App() {
       : settings.mode === "free" ? (draft.status === "drafting" ? `SUSUN ${draft.freeSide === "blue" ? "BLUE" : "RED"}` : "SIAPKAN DRAFT")
         : draft.status === "drafting" ? `${turn?.action === "ban" ? "BAN" : "PICK"} ${turn?.team === "blue" ? "BLUE" : "RED"}` : "SIAP MULAI";
   const currentTeam = turn?.team;
-  const maxBanCount = settings.mode === "mpl" ? 5 : RANK_BANS[settings.rank];
+  const maxBanCount = settings.mode === "free" ? 0 : settings.mode === "mpl" ? 5 : settings.mode === "alternating" ? 3 : RANK_BANS[settings.rank];
   const canUndo = draft.history.length > 0;
   const targetWins = series.format === "bestOf" ? Math.ceil(series.value / 2) : series.value;
   const seriesLabel = series.format === "bestOf" ? `BO${series.value} · FIRST TO ${targetWins}` : `FIRST TO ${series.value}`;
 
   if (isSplashGallery) return <SplashFocusGallery heroes={heroes} focalPoints={splashFocalPoints} onSave={saveSplashFocalPoints} />;
 
-  if (isObs) return <ObsOverlay event={event} draft={draft} teamMeta={teamMeta} series={series} seriesLabel={seriesLabel} phaseText={phaseText} seconds={seconds} timerEnabled={settings.timed && settings.mode !== "free" && draft.status === "drafting"} splashFocalPoints={splashFocalPoints} />;
+  if (isObs) return <ObsOverlay event={event} draft={draft} teamMeta={teamMeta} series={series} splashFocalPoints={splashFocalPoints} />;
 
   return (
     <main className={`app-shell training-screen ${draft.status !== "setup" ? "live-draft" : ""}`}>
@@ -668,7 +669,7 @@ function App() {
           <h1>Draft Pick<span className="period">.</span></h1>
           <p>Simulasikan pick dan ban sebelum pertandingan dimulai.</p>
         </div>
-        <div className="intro-stats"><div><b>05</b><span>HERO / TIM</span></div><div><b>03</b><span>MODE DRAFT</span></div><div className="stat-mark">CSS<span>×</span>MLBB</div></div>
+        <div className="intro-stats"><div><b>05</b><span>HERO / TIM</span></div><div><b>04</b><span>MODE DRAFT</span></div><div className="stat-mark">CSS<span>×</span>MLBB</div></div>
       </section>
 
       <section className="control-deck">
@@ -680,7 +681,7 @@ function App() {
           ))}
         </div>
         <div className="setup-fields">
-          {settings.mode !== "free" && <label className="setup-select"><span>RANK</span><select value={settings.rank} onChange={(event) => { setSettings((value) => ({ ...value, rank: event.target.value })); if (draft.status !== "setup") resetDraft(); }}><option>Epic</option><option>Legend</option><option>Mythic+</option></select><b>{ICONS.down}</b></label>}
+          {settings.mode === "standard" && <label className="setup-select"><span>RANK</span><select value={settings.rank} onChange={(event) => { setSettings((value) => ({ ...value, rank: event.target.value })); if (draft.status !== "setup") resetDraft(); }}><option>Epic</option><option>Legend</option><option>Mythic+</option></select><b>{ICONS.down}</b></label>}
           <label className="setup-select"><span>FIRST PICK</span><select value={settings.first} onChange={(event) => { setSettings((value) => ({ ...value, first: event.target.value })); if (draft.status !== "setup") resetDraft(); }}><option value="blue">Blue side</option><option value="red">Red side</option></select><b>{ICONS.down}</b></label>
           <button className={`timer-toggle ${settings.timed && settings.mode !== "free" ? "toggle-on" : ""}`} onClick={() => setSettings((value) => ({ ...value, timed: !value.timed }))} type="button"><span className="timer-glyph">◷</span><span><b>{settings.timed && settings.mode !== "free" ? "30 DETIK" : "SANTAI"}</b><small>TIMER PICK</small></span><i /></button>
           <button className="start-button" onClick={draft.status === "swapping" ? completeSwap : startDraft} type="button"><span>{draft.status === "swapping" ? "SELESAI SWAP" : draft.status === "drafting" ? "RESTART DRAFT" : draft.status === "complete" ? "DRAFT BARU" : "MULAI DRAFT"}</span><b>↗</b></button>
@@ -715,9 +716,9 @@ function App() {
         </div>
 
         <div className="teams-wrap">
-          <TeamPanel side="blue" team={draft.teams.blue} meta={teamMeta.blue} editable active={draft.status === "drafting" && (settings.mode === "free" ? draft.freeSide === "blue" : currentTeam === "blue")} currentAction={turn?.action} freeMode={settings.mode === "free" && draft.status === "drafting"} freeSide={draft.freeSide} freeSlot={freeSlot} swapMode={draft.status === "swapping"} selectedSwapSlots={swapSelection.filter((item) => item.side === "blue").map((item) => item.index)} onSwapSelect={(index) => selectSwapSlot("blue", index)} onPickPlayerChange={updateCurrentPicker} onNameChange={updateTeamName} onLogoChange={updateTeamLogo} onPlayerNameChange={updatePlayerName} onSelectSlot={(index) => { setDraft((state) => ({ ...state, freeSide: "blue" })); setFreeSlot(index); }} onSetFreeSide={(side) => { setDraft((state) => ({ ...state, freeSide: side })); setFreeSlot(Math.max(0, draft.teams[side].picks.findIndex((item) => !item))); }} onRemove={(kind, index) => removeHero("blue", kind, index)} />
+          <TeamPanel side="blue" team={draft.teams.blue} meta={teamMeta.blue} editable active={draft.status === "drafting" && (settings.mode === "free" ? draft.freeSide === "blue" : currentTeam === "blue")} currentAction={turn?.action} freeMode={settings.mode === "free" && draft.status === "drafting"} freeSide={draft.freeSide} freeSlot={freeSlot} swapMode={draft.status === "swapping"} selectedSwapSlots={swapSelection.filter((item) => item.side === "blue").map((item) => item.index)} maxBanCount={maxBanCount} onSwapSelect={(index) => selectSwapSlot("blue", index)} onPickPlayerChange={updateCurrentPicker} onNameChange={updateTeamName} onLogoChange={updateTeamLogo} onPlayerNameChange={updatePlayerName} onSelectSlot={(index) => { setDraft((state) => ({ ...state, freeSide: "blue" })); setFreeSlot(index); }} onSetFreeSide={(side) => { setDraft((state) => ({ ...state, freeSide: side })); setFreeSlot(Math.max(0, draft.teams[side].picks.findIndex((item) => !item))); }} onRemove={(kind, index) => removeHero("blue", kind, index)} />
           <div className="versus"><span>CSS</span><b>VS</b><i>UNNES<br />2025</i></div>
-          <TeamPanel side="red" team={draft.teams.red} meta={teamMeta.red} editable active={draft.status === "drafting" && (settings.mode === "free" ? draft.freeSide === "red" : currentTeam === "red")} currentAction={turn?.action} freeMode={settings.mode === "free" && draft.status === "drafting"} freeSide={draft.freeSide} freeSlot={freeSlot} swapMode={draft.status === "swapping"} selectedSwapSlots={swapSelection.filter((item) => item.side === "red").map((item) => item.index)} onSwapSelect={(index) => selectSwapSlot("red", index)} onPickPlayerChange={updateCurrentPicker} onNameChange={updateTeamName} onLogoChange={updateTeamLogo} onPlayerNameChange={updatePlayerName} onSelectSlot={(index) => { setDraft((state) => ({ ...state, freeSide: "red" })); setFreeSlot(index); }} onRemove={(kind, index) => removeHero("red", kind, index)} />
+          <TeamPanel side="red" team={draft.teams.red} meta={teamMeta.red} editable active={draft.status === "drafting" && (settings.mode === "free" ? draft.freeSide === "red" : currentTeam === "red")} currentAction={turn?.action} freeMode={settings.mode === "free" && draft.status === "drafting"} freeSide={draft.freeSide} freeSlot={freeSlot} swapMode={draft.status === "swapping"} selectedSwapSlots={swapSelection.filter((item) => item.side === "red").map((item) => item.index)} maxBanCount={maxBanCount} onSwapSelect={(index) => selectSwapSlot("red", index)} onPickPlayerChange={updateCurrentPicker} onNameChange={updateTeamName} onLogoChange={updateTeamLogo} onPlayerNameChange={updatePlayerName} onSelectSlot={(index) => { setDraft((state) => ({ ...state, freeSide: "red" })); setFreeSlot(index); }} onRemove={(kind, index) => removeHero("red", kind, index)} />
         </div>
       </section>
 
