@@ -9,7 +9,10 @@ import "./splash-review.css";
 import "./training.css";
 
 const pagePath = window.location.pathname.replace(/\/$/, "");
-if (pagePath === "/obs") document.body.classList.add("obs-body");
+if (pagePath === "/obs") {
+  document.body.classList.add("obs-body");
+  document.title = "OBS Display - CSS";
+}
 if (pagePath === "/seeallsplash") document.body.classList.add("splash-review-body");
 
 createRoot(document.getElementById("root")).render(

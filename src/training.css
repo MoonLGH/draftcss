@@ -276,7 +276,8 @@ body:has(.training-screen) {
 .training-screen .stage-actions .clock { display: none; }
 .training-screen .icon-button,
 .training-screen .swap-button,
-.training-screen .skip-ban-button {
+.training-screen .skip-ban-button,
+.training-screen .analysis-toggle-button {
   width: auto;
   min-width: 35px;
   height: 30px;
@@ -286,6 +287,43 @@ body:has(.training-screen) {
   background: #111;
   color: #d4b257;
   font: 700 9px var(--mono);
+}
+
+.training-screen .analysis-toggle-button {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  cursor: pointer;
+  white-space: nowrap;
+  letter-spacing: .06em;
+  transition: all .2s ease;
+}
+
+.training-screen .analysis-toggle-button:hover {
+  border-color: rgba(229, 174, 88, .6);
+  background: rgba(229, 174, 88, .12);
+  color: #fff;
+}
+
+.training-screen .analysis-toggle-button.analysis-active {
+  background: #d4b257;
+  color: #0b0f17;
+  border-color: #d4b257;
+  box-shadow: 0 0 10px rgba(212, 178, 87, .4);
+}
+
+.training-screen .analysis-toggle-indicator {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: #5a6679;
+  display: inline-block;
+  transition: background .2s;
+}
+
+.training-screen .analysis-toggle-button.analysis-active .analysis-toggle-indicator {
+  background: #0b0f17;
+  box-shadow: 0 0 5px rgba(0, 0, 0, .5);
 }
 
 .training-screen .stage-actions .icon-button { width: 34px; padding: 0; font-size: 14px; }
@@ -441,6 +479,10 @@ body:has(.training-screen) {
 .training-screen .hero-card-info small,
 .training-screen .hero-picked { display: none; }
 .training-screen .hero-disabled { opacity: .32; }
+.training-screen .hero-card.hero-banned-card { opacity: .8; filter: grayscale(.35); }
+.training-screen .hero-card.hero-banned-card .hero-card-art { border-color: rgba(255, 82, 88, .9); box-shadow: 0 0 0 1px rgba(255, 82, 88, .22), 0 0 8px rgba(255, 55, 63, .24); }
+.training-screen .hero-ban-mark { position: absolute; z-index: 3; inset: 0; pointer-events: none; }
+.training-screen .hero-ban-mark::after { content: ""; position: absolute; top: 50%; left: -12%; width: 124%; height: 2px; transform: rotate(-42deg); background: #ff5961; box-shadow: 0 0 5px rgba(255, 60, 68, .85); }
 .training-screen .footer { display: none; }
 
 .training-screen:not(.live-draft) .hero-pool-section { display: none; }
@@ -494,7 +536,8 @@ body:has(.training-screen) {
   .training-screen .stage-actions { gap: 2px; }
   .training-screen .icon-button,
   .training-screen .skip-ban-button,
-  .training-screen .swap-button { height: 25px; min-width: 27px; padding: 0 5px; font-size: 7px; }
+  .training-screen .swap-button,
+  .training-screen .analysis-toggle-button { height: 25px; min-width: 27px; padding: 0 5px; font-size: 7px; }
   .training-screen .stage-actions .icon-button { width: 26px; font-size: 11px; }
   .training-screen .teams-wrap { grid-template-columns: minmax(0, 1fr) 19px minmax(0, 1fr); gap: 2px; }
   .training-screen .team-panel { padding: 0 1px; }

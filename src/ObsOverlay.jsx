@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useState } from "react";
+import React, { useEffect, useMemo, useRef, useState } from "react";
 import pddBackground from "../codex/bg toska.png";
 import blueBanCircle from "../codex/Bulet biru.png";
 import redBanCircle from "../codex/Bulet merah.png";
@@ -17,11 +17,83 @@ import sponsorStrip from "../codex/looping sponsor.png";
 import { getSplashBackgroundPosition } from "./splashFocus.js";
 import { analyzeDraft } from "./draftAnalysis.js";
 
-function AnalysisPanel({ analysis }) {
+function AnalysisPanel({ analysis, isOpen = true }) {
   const scoreboard = analysis.scoreboard;
+  const scrollRef = useRef(null);
+
+  useEffect(() => {
+    if (!isOpen) {
+      if (scrollRef.current) scrollRef.current.scrollTop = 0;
+      return undefined;
+    }
+
+    const el = scrollRef.current;
+    if (!el) return undefined;
+
+    let animId;
+    let lastTime = null;
+    let state = "PAUSE_TOP"; // "PAUSE_TOP" | "SCROLL_DOWN" | "PAUSE_BOTTOM" | "SCROLL_UP"
+    let pauseTimer = 2200; // jeda waktu di atas (ms)
+    let currentScroll = 0;
+    const scrollSpeed = 24; // kecepatan scroll lambat & halus (pixel/detik)
+
+    el.scrollTop = 0;
+
+    const step = (now) => {
+      if (!lastTime) lastTime = now;
+      const dt = Math.min((now - lastTime) / 1000, 0.1);
+      lastTime = now;
+
+      const maxScroll = el.scrollHeight - el.clientHeight;
+
+      if (maxScroll > 6) {
+        if (state === "PAUSE_TOP") {
+          pauseTimer -= dt * 1000;
+          if (pauseTimer <= 0) {
+            state = "SCROLL_DOWN";
+          }
+        } else if (state === "SCROLL_DOWN") {
+          currentScroll += scrollSpeed * dt;
+          if (currentScroll >= maxScroll) {
+            currentScroll = maxScroll;
+            state = "PAUSE_BOTTOM";
+            pauseTimer = 2500; // jeda di bawah agar terbaca
+          }
+          el.scrollTop = currentScroll;
+        } else if (state === "PAUSE_BOTTOM") {
+          pauseTimer -= dt * 1000;
+          if (pauseTimer <= 0) {
+            state = "SCROLL_UP";
+          }
+        } else if (state === "SCROLL_UP") {
+          currentScroll -= scrollSpeed * dt;
+          if (currentScroll <= 0) {
+            currentScroll = 0;
+            state = "PAUSE_TOP";
+            pauseTimer = 2400; // jeda saat kembali ke atas
+          }
+          el.scrollTop = currentScroll;
+        }
+      } else {
+        el.scrollTop = 0;
+      }
+
+      animId = requestAnimationFrame(step);
+    };
+
+    const startTimer = setTimeout(() => {
+      animId = requestAnimationFrame(step);
+    }, 150);
+
+    return () => {
+      clearTimeout(startTimer);
+      cancelAnimationFrame(animId);
+    };
+  }, [isOpen, analysis]);
+
   return (
     <div className="obs-analysis" aria-label="Analisis draft MLBBHub" aria-live="polite">
-      <div className="obs-analysis-scroll">
+      <div className="obs-analysis-scroll" ref={scrollRef}>
         <header className="obs-analysis-heading">
           <div className="obs-analysis-score-row">
             <div className="obs-analysis-side-score blue"><strong>{scoreboard?.blue ?? 50}</strong><span>BLUE</span></div>
@@ -133,31 +205,42 @@ function PddTeamScore({ side, team, score, targetWins }) {
   </div>;
 }
 
-export default function ObsOverlay({ event, draft, teamMeta, series, splashFocalPoints }) {
-  const [analysisOpen, setAnalysisOpen] = useState(false);
+export default function ObsOverlay({ event, draft, teamMeta, series, splashFocalPoints, analysisOpen: controlledAnalysisOpen, setAnalysisOpen: setControlledAnalysisOpen }) {
+  const [internalAnalysisOpen, setInternalAnalysisOpen] = useState(false);
+  const analysisOpen = controlledAnalysisOpen !== undefined ? controlledAnalysisOpen : internalAnalysisOpen;
   const currentTurn = draft.queue[draft.turnIndex];
   const targetWins = series.format === "bestOf" ? Math.ceil(series.value / 2) : series.value;
-  const blueActive = draft.status === "drafting" && (currentTurn?.team === "blue" || (!currentTurn && draft.mode === "free" && draft.freeSide === "blue"));
-  const redActive = draft.status === "drafting" && (currentTurn?.team === "red" || (!currentTurn && draft.mode === "free" && draft.freeSide === "red"));
-  const blueBanActive = blueActive && currentTurn?.action === "ban";
-  const redBanActive = redActive && currentTurn?.action === "ban";
-  const bluePickActive = blueActive && (currentTurn?.action === "pick" || draft.mode === "free");
-  const redPickActive = redActive && (currentTurn?.action === "pick" || draft.mode === "free");
+  const isFree = draft.mode === "free" || !currentTurn;
+  const freeAction = draft.freeAction || "ban";
+  const blueActive = draft.status === "drafting" && (currentTurn?.team === "blue" || (isFree && draft.freeSide === "blue"));
+  const redActive = draft.status === "drafting" && (currentTurn?.team === "red" || (isFree && draft.freeSide === "red"));
+  const blueBanActive = blueActive && (currentTurn?.action === "ban" || (isFree && freeAction === "ban"));
+  const redBanActive = redActive && (currentTurn?.action === "ban" || (isFree && freeAction === "ban"));
+  const bluePickActive = blueActive && (currentTurn?.action === "pick" || (isFree && freeAction === "pick"));
+  const redPickActive = redActive && (currentTurn?.action === "pick" || (isFree && freeAction === "pick"));
   const analysis = useMemo(
     () => analyzeDraft(draft.teams.blue.picks || [], draft.teams.red.picks || []),
     [draft.teams.blue.picks, draft.teams.red.picks],
   );
 
   useEffect(() => {
+    document.title = "OBS Display - CSS";
+  }, []);
+
+  useEffect(() => {
     const onKeyDown = (event) => {
       if (event.key.toLowerCase() !== "a" || event.repeat || event.ctrlKey || event.metaKey || event.altKey) return;
       const targetTag = event.target?.tagName;
       if (["INPUT", "TEXTAREA", "SELECT"].includes(targetTag) || event.target?.isContentEditable) return;
-      setAnalysisOpen((open) => !open);
+      if (setControlledAnalysisOpen) {
+        setControlledAnalysisOpen((open) => !open);
+      } else {
+        setInternalAnalysisOpen((open) => !open);
+      }
     };
     window.addEventListener("keydown", onKeyDown);
     return () => window.removeEventListener("keydown", onKeyDown);
-  }, []);
+  }, [setControlledAnalysisOpen]);
 
   return (
     <main className="obs-overlay pdd-overlay">
@@ -173,7 +256,7 @@ export default function ObsOverlay({ event, draft, teamMeta, series, splashFocal
             <strong className="pdd-vs">VS</strong>
             <PddTeamScore side="red" team={teamMeta.red} score={series.redScore} targetWins={targetWins} />
           </div>
-          <AnalysisPanel analysis={analysis} />
+          <AnalysisPanel analysis={analysis} isOpen={analysisOpen} />
         </section>
         <PddPickRow side="blue" team={draft.teams.blue} meta={teamMeta.blue} active={bluePickActive} splashFocalPoints={splashFocalPoints} />
         <PddPickRow side="red" team={draft.teams.red} meta={teamMeta.red} active={redPickActive} splashFocalPoints={splashFocalPoints} />
